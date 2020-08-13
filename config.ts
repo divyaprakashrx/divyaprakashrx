@@ -1,18 +1,23 @@
 const siteMetadata = {
-    title: `Elemental`,
+    title: `Divya Prakash`,
     siteUrl: `http://localhost`,
     capitalizeTitleOnHome: false,
-    logo: `/images/logo.png`,
-    icon: `/images/icon.png`,
-    titleImage: `/images/wall.png`,
-    ogImage: `/images/wall.png`,
+    logo: `/images/icon.svg`,
+    icon: `/images/icon.svg`,
+    titleImage: `/images/mypic.jpg`,
+    ogImage: `/images/mypic.jpg`,
     twoColumnWall: true,
     cookiePolicy: true,
-    introTag: `PHOTOGRAPHER | VIDEOGRAPHER`,
-    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet accumsan arcu. Proin ac consequat arcu.`,
+    introTag: `DEVELOPER | WEB | AI | ML`,
+    description: `I am a sophomore persuing my B.Tech in CSE from National Institute of Technology Patna.`,
     about:
-        "Cras accumsan a lectus at tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus elementum dapibus dictum. Mauris auctor quam nec est tincidunt hendrerit. Donec pulvinar lobortis mauris. Cras vulputate ullamcorper ligula a rhoncus. Nunc venenatis elementum ligula in semper. Mauris malesuada purus nunc, et ultricies leo aliquam ac. Ut sit amet nunc id magna accumsan hendrerit in eget metus.",
-    author: `@_akzhy`,
+        `I am a sophomore persuing my B.Tech in CSE from National Institute of Technology Patna.
+I am currently data analyser at Hackslash,Web developer at Hackslash and Robotics Club NITP,participant in Girlscript Summer of Code 2020
+I am a front end web developer and a Machine Learning enthusiast.
+I am exploring myself and the open-source community and keep on learning.
+My Achievements
+Till now, my achievements in NIT PATNA comprises of SMDC 2.0 Winner, Hack'n Make(SIH Internal Hackathon) Winner.`,
+    author: `@divyaprakash`,
     blogItemsPerPage: 10,
     portfolioItemsPerPage: 10,
     darkmode: true,
@@ -46,40 +51,34 @@ const siteMetadata = {
         },
         {
             name: "GitHub",
-            url: "https://github.com/akzhy/gatsby-starter-elemental",
+            url: "https://github.com/divyaprakash-Rx",
         },
     ],
     social: [
         {
             name: "Facebook",
             icon: "/images/Facebook.svg",
-            url: "#",
+            url: "https://www.facebook.com/profile.php?id=100011144353781",
         },
         {
             name: "Twitter",
             icon: "/images/Twitter.svg",
-            url: "#",
+            url: "https://twitter.com/divya__prakash",
         },
         {
             name: "Instagram",
             icon: "/images/Instagram.svg",
-            url: "#",
-        },
-        {
-            name: "Youtube",
-            icon: "/images/Youtube.svg",
-            url: "#",
+            url: "https://www.instagram.com/divyaprakash.1/",
         },
     ],
     contact: {
         // leave empty ('') or false to hide form
-        api_url: "https://getform.io/f/f227a36e-096a-4c6a-9963-9f1918a85bb3",
-        description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet accumsan arcu. Proin ac consequat arcu.`,
-        mail: "hi@akzhy.com",
-        phone: "000-000-0000",
-        address: "1234 \nLocation \nLocation",
+        api_url: "https://formspree.io/mjvazank",
+        description: `Feel free to contact me for anything.`,
+        mail: "medivyaprakash@gmail.com",
+        phone: "+91 754-196-8099",
     },
-    disqus: "elemental-netlify-com",
+    disqus: "divyaprakash.tech",
 }
 
 const beforeContactFormSubmit = data => {
@@ -143,10 +142,6 @@ const contactFormSubmit = async (api, data) => {
         return {
             result: true,
         }
-    }
-    return {
-        result: false,
-        ...res,
     }
 }
 

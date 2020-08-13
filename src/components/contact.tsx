@@ -201,7 +201,7 @@ const IconRight = ({ spin = false }) => {
 type FormMessageProps = { show: boolean, type: string, message: string }
 const FormMessage: React.FC<FormMessageProps> = ({ show, type, message }) => {
     if (!show) return null
-    return <p className={`text-${type} my-2`}>{message}</p>
+    return <p className={`text-${type} my-2`}>Your query has been submitted</p>
 }
 
 export { Form, Description }

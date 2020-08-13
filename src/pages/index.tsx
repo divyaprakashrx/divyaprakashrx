@@ -212,7 +212,6 @@ export const query = graphql`
                     description
                     mail
                     phone
-                    address
                 }
                 social {
                     name
