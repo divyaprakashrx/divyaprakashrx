@@ -1,0 +1,145 @@
+---
+title: Template-driven Forms in Angular
+date: 2020-06-21
+image: ./angular-10.png
+banner: ./angular-10.png
+description: Complete details to know about Angular Template-Driven Forms
+---
+
+## Intro to Angular Forms
+
+In many frontend applications, we need the use of forms frequently. 
+
+In creating forms, we need to deal with the following problems:-
+
+- how to keep track of the global form state
+- know which parts of the form are valid and which are still invalid
+- properly displaying error messages to the user so that the user knows what to do to make the form valid
+
+All of these are non-trivial tasks that are similar across applications, and as such could benefit from a framework.
+
+Angular provides us mainly two types of forms:-
+- Template Driven Forms
+- Reactive Forms
+
+## Template Driven Forms
+
+Template-driven forms rely on directives defined in the FormsModule.
+
+- The NgModel directive reconciles value changes in the attached form element with changes in the data model, allowing you to respond to user input with input validation and error handling.
+
+- The NgForm directive creates a top-level FormGroup instance and binds it to a &lt;form&gt; element to track aggregated form value and validation status. As soon as you import FormsModule, this directive becomes active by default on all &lt;form&gt; tags.
+
+- The NgModelGroup directive creates and binds a FormGroup instance to a DOM element.
+
+### Enabling Template Driven Forms
+
+Unlike the case of AngularJS, ngModel and other form-related directives are not available by default, we need to explicitly import them in our application module:
+
+> ```js
+> import {NgModule} from "@angular/core";
+> import {BrowserModule} from "@angular/platform-browser";
+> import {FormsModule} from "@angular/forms";
+> 
+> @NgModule({
+>     declarations: [AppComponent],
+>     imports: [BrowserModule, FormsModule],
+>     bootstrap: [AppComponent]
+> })
+> export class AppModule {}
+> ```
+
+We can see here that we have enabled Template Driven Forms by adding FormsModule to our application, and bootstrapped the application dynamically.
+
+This is OK for development mode, but you might want to have a look at this post on @NgModule for an alternative bootstrap strategy for production.
+
+With the initial configuration in place, let's now build our first Angular Form.
+
+### Overview of steps we should keep in mind while creating forms
+
+1. First of all, Build the basic form with your field requirements.
+-  Define a sample data model.
+-  Include required infrastructure such as the FormsModule.
+
+2. Bind form controls to data properties using the ngModel directive and two-way data-binding syntax and name controls to make them accessible to ngModel.
+
+3. Use custom css or validation-error messages to track input validity and control status using ngModel.
+
+4. Handle form submission using the ngSubmit output property of the form.
+-  Disable the Submit button until the form is valid.
+-  After submit, swap out the finished form for different content on the page.
+
+### Building Forms
+
+1. We will be building a sample login form. First of all, we will create new form component and create form layout in form.component.html i.e.
+
+> ```js
+> <section class="sample-app-content">
+>     <h1>Template-driven Form Example:</h1>
+>     <form #f="ngForm" (ngSubmit)="onSubmitTemplateBased()">
+>         <p>
+>             <label>First Name:</label>
+>             <input type="text"  
+>                 [(ngModel)]="user.firstName" required>
+>         </p>
+>         <p>
+>             <label>Password:</label>
+>             <input type="password"  
+>                 [(ngModel)]="user.password" required>
+>         </p>
+>         <p>
+>             <button type="submit" [disabled]="!f.valid">Submit</button>
+>         </p>
+>     </form>
+> </section>
+> ```
+
+2. In form.component.ts, we will define the function which will submit the data.
+
+> ```js
+> @Component({
+>     selector: "template-driven-form",
+>     templateUrl: 'template-driven-form.html'
+> })
+> export class TemplateDrivenForm {
+> 
+>     user: Object = {};
+> 
+>     onSubmitTemplateBased() {
+>         console.log(this.vm);
+>     }
+> 
+> }
+> ```
+
+There is actually quite a lot going on in this simple example. What we have done here is to declare a simple form with two controls: name and password, both of which are mandatory fields.
+
+The form will trigger the controller method onSubmitTemplateBased on submission, but the submit button is only enabled if both required fields are filled in.
+
+### NgModel Validation Function
+
+    Notice the use of [(ngModel)], this notation emphasizes that the two form controls are bi-directionally bound with a view model variable, named as simply user.
+More than that, when the user clicks a required field, the field is shown in red until the user types in something. Angular is actually tracking three form field states for us and applying the following CSS classes to both the form and its controls:
+- touched or untouched
+- valid or invalid
+- pristine or dirty
+
+These are CSS state classes are very useful for styling form error states.
+
+Angular actually tracks the validity state of the whole form as well, using it to enable/disable the submit button.
+
+### Advantages and Disadvantages of Template Driven Forms
+
+In this simple example we cannot really see it, but keeping the template as the source of all form validation truth is something that can become pretty hard to read rather quickly.
+
+As we add more and more validator tags to a field or when we start adding complex cross-field validations the readability of the form decreases, to the point where it will be harder to hand it off to a web designer.
+
+The upside of this way of handling forms is its simplicity, and it's probably more than enough to build a large range of forms.
+
+On the downside, the form validation logic cannot be unit tested. The only way to test this logic is to run an end to end test with a browser, for example using a headless browser like PhantomJS.
+
+---
+
+For more information for angular forms, use link:- https://angular.io/guide/forms
+
+---
