@@ -118,7 +118,8 @@ The form will trigger the controller method onSubmitTemplateBased on submission,
 
 ### NgModel Validation Function
 
-    Notice the use of [(ngModel)], this notation emphasizes that the two form controls are bi-directionally bound with a view model variable, named as simply user.
+Notice the use of ngModel, this notation emphasizes that the two form controls are bi-directionally bound with a view model variable, named as simply user.
+
 More than that, when the user clicks a required field, the field is shown in red until the user types in something. Angular is actually tracking three form field states for us and applying the following CSS classes to both the form and its controls:
 - touched or untouched
 - valid or invalid

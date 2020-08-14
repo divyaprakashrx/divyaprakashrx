@@ -285,6 +285,11 @@ p {
     animation: spin 1s infinite linear;
 }
 
+blockquote{
+    overflow-x: scroll;
+    scrollbar-width: 0.2px;
+}
+
 @keyframes spin {
     0%{
         transform: rotate(0deg);
