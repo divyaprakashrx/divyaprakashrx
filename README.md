@@ -1,4 +1,3 @@
-![image](https://raw.githubusercontent.com/divyaprakash-Rx/divyaprakash-Rx/master/octocats/droidtocat.png)
  # Hi there I am Divya Prakash.👋
 
 - 🔭 I’m currently working on Deep Learning.
