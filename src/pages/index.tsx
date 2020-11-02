@@ -121,7 +121,7 @@ const Wall = ({ data }) => {
                     <img
                         src={data.titleImage}
                         alt=""
-                        className="h-full w-auto max-w-none lg:h-auto lg:w-full"
+                        className="h-full w-auto max-w-none lg:h-auto lg:w-full" style={{marginTop:`10vh`}}
                     />
                 </div>
                 <div className="flex-1 text-center p-3 relative z-10 lg:text-left lg:pl-8 text-white lg:text-color-default">
