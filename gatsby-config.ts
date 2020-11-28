@@ -31,6 +31,16 @@ const plugins = [
         },
     },
     {
+        resolve: "gatsby-remark-embed-gist",
+        options: {
+            username: "divyaprakash-Rx",
+            gistCssPreload: true,
+
+            // a string that represents the github default gist css url.
+            // defaults: "https://github.githubassets.com/assets/gist-embed-b3b573358bfc66d89e1e95dbf8319c09.css"
+        },
+    },
+    {
         resolve: `gatsby-plugin-mdx`,
         options: {
             gatsbyRemarkPlugins: [
@@ -46,15 +56,15 @@ const plugins = [
     {
         resolve: `gatsby-plugin-postcss`,
         options: {
-          postCssPlugins: [
-            tailwindcss(tailwindConfig),
-            autoprefixer,
-            ...(process.env.NODE_ENV === `production`
-              ? [require(`cssnano`)]
-              : []),
-          ],
+            postCssPlugins: [
+                tailwindcss(tailwindConfig),
+                autoprefixer,
+                ...(process.env.NODE_ENV === `production`
+                    ? [require(`cssnano`)]
+                    : []),
+            ],
         },
-      },
+    },
 ]
 
 if (siteMetadata.disqus) {

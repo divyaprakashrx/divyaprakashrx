@@ -2,6 +2,7 @@
 @import "tailwindcss/utilities";
 @import "tailwindcss/components";
 
+
 body {
     font-family: "Raleway", sans-serif;
 }
