@@ -6,8 +6,8 @@
 -   📫 How to reach me: medivyaprakash@gmail.com
 -   ❤ I love Community Building.
 
-<a href="https://github.com/divyaprakash-Rx">
-<img height="160em" src="https://github-readme-stats.vercel.app/api?username=divyaprakash-Rx&show_icons=true&include_all_commits=true&custom_title=GitHub+Stats&theme=angular">
-<img height="160em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=divyaprakash-Rx&layout=compact&theme=angular"></a>
+<a href="https://github.com/divyaprakashrx">
+<img height="160em" src="https://github-readme-stats.vercel.app/api?username=divyaprakashrx&show_icons=true&include_all_commits=true&custom_title=GitHub+Stats&theme=angular">
+<img height="160em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=divyaprakashrx&layout=compact&theme=angular"></a>
 
-![image](https://raw.githubusercontent.com/divyaprakash-Rx/divyaprakash-Rx/master/octocats/Fintechtocat.png)
+![image](https://raw.githubusercontent.com/divyaprakashrx/divyaprakashrx/master/octocats/Fintechtocat.png)
