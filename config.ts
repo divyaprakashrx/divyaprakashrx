@@ -76,7 +76,7 @@ Till now, my achievements in NIT PATNA comprises of SMDC 2.0 Winner, Hack'n Make
         api_url: "https://formspree.io/mjvazank",
         description: `Feel free to contact me for anything.`,
         mail: "medivyaprakash@gmail.com",
-        phone: "+91 754-196-8099",
+        phone: "",
     },
     disqus: "divyaprakash.tech",
 }
