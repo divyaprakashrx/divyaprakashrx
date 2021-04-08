@@ -9,14 +9,8 @@ const siteMetadata = {
     twoColumnWall: true,
     cookiePolicy: true,
     introTag: `DEVELOPER | WEB | AI | ML`,
-    description: `I am a sophomore persuing my B.Tech in CSE from National Institute of Technology Patna.`,
-    about:
-        `I am a sophomore persuing my B.Tech in CSE from National Institute of Technology Patna.
-I am currently data analyser at Hackslash,Web developer at Hackslash and Robotics Club NITP,participant in Girlscript Summer of Code 2020
-I am a front end web developer and a Machine Learning enthusiast.
-I am exploring myself and the open-source community and keep on learning.
-My Achievements
-Till now, my achievements in NIT PATNA comprises of SMDC 2.0 Winner, Hack'n Make(SIH Internal Hackathon) Winner.`,
+    description: `I am a Tech Fanatic, love community building 😍 and enjoy coding in nights with 🍿`,
+    about: `Quality-oriented Computer Science and Engineering major (8.56 GPA) currently attending National Institute of Technology Patna, with 2+ years of work experience. Aiming to leverage a proven knowledge of application development, database server, and web platform development skills to successfully fulfill my roles. Frequently praised as focused by my peers, I can be relied in a team achieve its goals.`,
     author: `@divyaprakash`,
     blogItemsPerPage: 10,
     portfolioItemsPerPage: 10,
@@ -46,10 +40,6 @@ Till now, my achievements in NIT PATNA comprises of SMDC 2.0 Winner, Hack'n Make
     ],
     footerLinks: [
         {
-            name: "PRIVACY POLICY",
-            url: "/privacy-policy",
-        },
-        {
             name: "GitHub",
             url: "https://github.com/divyaprakash-Rx",
         },
@@ -74,7 +64,7 @@ Till now, my achievements in NIT PATNA comprises of SMDC 2.0 Winner, Hack'n Make
     contact: {
         // leave empty ('') or false to hide form
         api_url: "https://formspree.io/mjvazank",
-        description: `Feel free to contact me for anything.`,
+        description: `If you wanna hangout or have some exciting stuffs for me, feel free to contact 🤩`,
         mail: "medivyaprakash@gmail.com",
         phone: "",
     },
@@ -151,7 +141,7 @@ const defaults = {
     darkmode: false,
     switchTheme: true,
     capitalizeTitleOnHome: true,
-    cookiePolicy: false
+    cookiePolicy: false,
 }
 
 Object.keys(defaults).forEach(item => {

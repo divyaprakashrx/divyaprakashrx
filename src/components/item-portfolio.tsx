@@ -39,8 +39,8 @@ export const ItemPortfolio: React.FC<ItemPortfolioProps> = ({ data, even }) => {
 
     useEffect(() => {
         transform.current = Math.min(getWindowHeight() / 2, 300) * Math.max(0, state.percentage - percentageThreshold);
-        
-        if(getWindowWidth() < 1024) {
+
+        if (getWindowWidth() < 1024) {
             updateState({
                 animated: true
             })
@@ -55,9 +55,8 @@ export const ItemPortfolio: React.FC<ItemPortfolioProps> = ({ data, even }) => {
         <Parallax changePercentage={updateState}>
             <div className="large-container mx-auto">
                 <div
-                    className={`my-4 py-8 lg:py-24 portfolio-item md:flex ${
-                        state.animated ? "begin-animation" : ""
-                    } ${even ? "even flex-row-reverse" : ""}`}
+                    className={`my-4 py-8 lg:py-24 portfolio-item md:flex ${state.animated ? "begin-animation" : ""
+                        } ${even ? "even flex-row-reverse" : ""}`}
                 >
                     <div className="relative flex-1">
                         <div
@@ -76,9 +75,8 @@ export const ItemPortfolio: React.FC<ItemPortfolioProps> = ({ data, even }) => {
                     </div>
                     <div className="flex-1 flex md:px-4 lg:px-6 items-center">
                         <div
-                            className={`flex flex-1 flex-wrap  ${
-                                even ? "md:justify-end md:text-right" : ""
-                            }`}
+                            className={` flex-wrap  ${even ? "md:justify-end md:text-right" : ""
+                                }`}
                         >
                             <h3 className="text-color-1 text-5xl font-black to-up">
                                 {data.frontmatter.title}

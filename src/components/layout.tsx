@@ -12,13 +12,12 @@ import SEO, { SEOProps } from "../utils/seo";
 
 import "../style/index.css"
 import { ThemeQuery } from "./__generated__/ThemeQuery"
-import CookieBox from "./cookie";
 import store from "../utils/store";
 
 export type Theme = { name: string, label: string, icon: JSX.Element };
-type LayoutProps = { children: any, front?: boolean, seo: Partial<SEOProps>, navPlaceholder?: boolean, location: WindowLocation;}
+type LayoutProps = { children: any, front?: boolean, seo: Partial<SEOProps>, navPlaceholder?: boolean, location: WindowLocation; }
 
-export default ({ children, front, seo, navPlaceholder=true, location }: LayoutProps) => {
+export default ({ children, front, seo, navPlaceholder = true, location }: LayoutProps) => {
 
     const query = useStaticQuery<ThemeQuery>(graphql`
         query ThemeQuery {
@@ -38,7 +37,7 @@ export default ({ children, front, seo, navPlaceholder=true, location }: LayoutP
             name: "theme-light",
             label: "Light Theme",
             icon: <Sun />
-        },{
+        }, {
             name: "theme-dark",
             label: "Dark Theme",
             icon: <Moon />
@@ -52,17 +51,17 @@ export default ({ children, front, seo, navPlaceholder=true, location }: LayoutP
     const [cookieShown, setCookieShown] = useState(false);
 
     useEffect(() => {
-        if(localStorage.getItem("theme")) {
+        if (localStorage.getItem("theme")) {
             const t = Number(localStorage.getItem("theme"));
             changeTheme(t);
         }
 
-        if(localStorage.getItem("cookie-accept")) {
+        if (localStorage.getItem("cookie-accept")) {
             setCookieShown(true)
         }
     }, [])
 
-    const onCookieAccept = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onCookieAccept = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         localStorage.setItem("cookie-accept", "1");
@@ -70,7 +69,7 @@ export default ({ children, front, seo, navPlaceholder=true, location }: LayoutP
     }
 
     const switchTheme = () => {
-        const next = theme !== themes.length-1 ? theme+1 : 0;
+        const next = theme !== themes.length - 1 ? theme + 1 : 0;
         changeTheme(next);
         localStorage.setItem("theme", `${next}`);
         store.dispatch("theme:change", undefined);
@@ -79,17 +78,14 @@ export default ({ children, front, seo, navPlaceholder=true, location }: LayoutP
 
     return (
         <React.Fragment>
-            <Head data={query}/>
+            <Head data={query} />
             <SEO {...seo} />
             <div className={`wrapper ${themes[theme].name}`}>
                 <div className="text-color-default bg-bg">
-                    <Navbar front={front} navPlaceholder={navPlaceholder} location={location} currentTheme={theme} switchTheme={switchTheme} themes={themes} allowThemeSwitch={query.site.siteMetadata.switchTheme}/>
+                    <Navbar front={front} navPlaceholder={navPlaceholder} location={location} currentTheme={theme} switchTheme={switchTheme} themes={themes} allowThemeSwitch={query.site.siteMetadata.switchTheme} />
                     {children}
                     <Footer />
                 </div>
-                {
-                    (query.site.siteMetadata.cookiePolicy && !cookieShown) && <CookieBox onChange={onCookieAccept}/>
-                }
             </div>
         </React.Fragment>
     )
