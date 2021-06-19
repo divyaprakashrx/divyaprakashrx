@@ -10,4 +10,5 @@
 <img height="160em" src="https://github-readme-stats.vercel.app/api?username=divyaprakashrx&show_icons=true&include_all_commits=true&custom_title=GitHub+Stats&theme=angular">
 <img height="160em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=divyaprakashrx&layout=compact&theme=angular"></a>
 
-![image](https://raw.githubusercontent.com/divyaprakashrx/divyaprakashrx/master/octocats/Fintechtocat.png)
+<!-- ![image](https://raw.githubusercontent.com/divyaprakashrx/divyaprakashrx/master/octocats/Fintechtocat.png) -->
+![image](https://github.githubassets.com/images/modules/site/home/footer-illustration.svg)
