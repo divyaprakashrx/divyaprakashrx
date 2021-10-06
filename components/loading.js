@@ -13,11 +13,18 @@ import PC from "./pc";
 
 const Loading = ({ data }) => {
   return (
-    <loading className="h:h-screen flex flex-col h-screen justify-center items-center">
+    <loading
+      style={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
       <PC />
-      <div className="flex justify-center items-center">
         <Name progress={data} />
-      </div>
     </loading>
   );
 };

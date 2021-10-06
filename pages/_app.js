@@ -31,15 +31,16 @@ function MyApp({ Component, pageProps }) {
   Router.events.on("routeChangeComplete", () => onChangeLoading(false, 1));
   Router.events.on("routeChangeError", () => onChangeLoading(false, 1));
 
+
+  return <Loading data={progress} />;
+
   if (loading) return <Loading data={progress} />;
 
   if (!loading) {
-    
     if (progress >= 100) {
       return <Component {...pageProps} />;
-    }
-    else {
-      return <Loading data={progress} />
+    } else {
+      return <Loading data={progress} />;
     }
   }
 }
