@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
   Router.events.on("routeChangeError", () => onChangeLoading(false, 1));
 
 
-  return <Loading data={progress} />;
+  // return <Loading data={progress} />;
 
   if (loading) return <Loading data={progress} />;
 

@@ -1,9 +1,9 @@
-const Name = ({progress}) => (
+const Name = ({ progress }) => (
   <svg
     className="max-w-screen-sm w-full"
     style={{
-      maxWidth: '450px',
-      width: '80%',
+      maxWidth: "450px",
+      width: "80%",
     }}
     viewBox="0 0 611 91"
     fill="none"
@@ -174,10 +174,10 @@ const Name = ({progress}) => (
         y2="44.7205"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0%" stopColor="#00FDEE" />
+        <stop offset="0%" stopColor="#CA6BA4" />
         <stop
           offset={`${progress < 50 ? 2 * progress : 100}%`}
-          stopColor="#F13636"
+          stopColor="#3919BB"
           stopOpacity={`${progress < 50 ? 0 : 2 * (progress - 50)}%`}
         />
       </linearGradient>

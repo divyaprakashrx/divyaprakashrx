@@ -18,6 +18,7 @@ const Loading = ({ data }) => {
         height: "100vh",
         width: "100vw",
         display: "flex",
+        background:"url('/images/R.jpg')",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
