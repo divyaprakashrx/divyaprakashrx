@@ -1,6 +1,6 @@
 const siteMetadata = {
     title: `Divya Prakash`,
-    siteUrl: `http://localhost`,
+    siteUrl: `https://divyaprakash.co.in`,
     capitalizeTitleOnHome: false,
     logo: `/images/icon.svg`,
     icon: `/images/icon.svg`,
@@ -10,7 +10,7 @@ const siteMetadata = {
     cookiePolicy: true,
     introTag: `DEVELOPER | WEB | AI | ML`,
     description: `I am a Tech Fanatic, love community building 😍 and enjoy coding in nights with 🍿`,
-    about: `Quality-oriented Computer Science and Engineering major (8.56 GPA) currently attending National Institute of Technology Patna, with 2+ years of work experience. Aiming to leverage a proven knowledge of application development, database server, and web platform development skills to successfully fulfill my roles. Frequently praised as focused by my peers, I can be relied in a team achieve its goals.`,
+    about: `Quality-oriented Full Stack Web Developer, with 2+ years of work experience. Aiming to leverage a proven knowledge of application development, database server, and web platform development skills to successfully fulfill my roles. Frequently praised as focused by my peers, I can be relied in a team achieve its goals.`,
     author: `@divyaprakash`,
     blogItemsPerPage: 10,
     portfolioItemsPerPage: 10,
@@ -41,7 +41,7 @@ const siteMetadata = {
     footerLinks: [
         {
             name: "GitHub",
-            url: "https://github.com/divyaprakash-Rx",
+            url: "https://github.com/divyaprakashrx",
         },
     ],
     social: [
@@ -53,12 +53,12 @@ const siteMetadata = {
         {
             name: "Twitter",
             icon: "/images/Twitter.svg",
-            url: "https://twitter.com/divya__prakash",
+            url: "https://twitter.com/divyaprakashrx",
         },
         {
             name: "Instagram",
             icon: "/images/Instagram.svg",
-            url: "https://www.instagram.com/divyaprakash.1/",
+            url: "https://www.instagram.com/divyaprakashrx/",
         },
     ],
     contact: {
@@ -68,7 +68,7 @@ const siteMetadata = {
         mail: "medivyaprakash@gmail.com",
         phone: "",
     },
-    disqus: "divyaprakash.tech",
+    disqus: "divyaprakash.co.in",
 }
 
 const beforeContactFormSubmit = data => {
