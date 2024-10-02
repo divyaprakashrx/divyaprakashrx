@@ -9,8 +9,9 @@ const siteMetadata = {
     twoColumnWall: true,
     cookiePolicy: true,
     introTag: `DEVELOPER | WEB | AI | ML`,
-    description: `I am a Tech Fanatic, love community building 😍 and enjoy coding in nights with 🍿`,
-    about: `Quality-oriented Full Stack Web Developer, with 2+ years of work experience. Aiming to leverage a proven knowledge of application development, database server, and web platform development skills to successfully fulfill my roles. Frequently praised as focused by my peers, I can be relied in a team achieve its goals.`,
+    description: `Full Stack Developer | GitHub Extern’21 | CSE @NITP`,
+    about: `Experienced Full Stack Engineer to create scalable solutions and optimise for the performance.
+At the core of my professional ethos includes the commitment to collaborate effectively with cross-functional teams, ensuring projects are delivered with excellence. My drive to master emerging technologies is matched by a desire to implement solutions that have a real-world impact, streamlining processes and enhancing user experiences.`,
     author: `@divyaprakash`,
     blogItemsPerPage: 10,
     portfolioItemsPerPage: 10,
