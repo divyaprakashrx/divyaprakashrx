@@ -1,15 +1,10 @@
+'use client';
 import { useEffect, useState } from "react";
 import Name from "./name";
 import PC from "./pc";
+import dynamic from 'next/dynamic'
 
-// const Load = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 100vw;
-//   height: 100vh;
-//   flex-direction: column;
-// `;
+
 
 const Loading = ({ data }) => {
   return (
@@ -29,4 +24,7 @@ const Loading = ({ data }) => {
     </loading>
   );
 };
-export default Loading;
+
+export default dynamic(() => Promise.resolve(Loading), {
+  ssr: false
+})
