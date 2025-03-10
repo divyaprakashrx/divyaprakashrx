@@ -4,10 +4,12 @@ import { Frame } from "../components/styled/Layout";
 import EarthSection from "../components/sections/EarthSection";
 import ContentSection from "../components/sections/ContentSection";
 import useScrollEffects from "../hooks/useScrollEffects";
+import { preloadAssets } from '../utils/preloadAssets';
 
 export default function Home() {
   const frameRef = useRef(null);
   const [pageLoaded, setPageLoaded] = useState(false);
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
   
   const {
     contentInView,
@@ -19,28 +21,37 @@ export default function Home() {
     parallaxY2
   } = useScrollEffects(frameRef);
 
-  // Handle page load animation
+  // Handle asset loading and page load animation
   useEffect(() => {
-    const loadTimer = setTimeout(() => {
-      setPageLoaded(true);
-    }, 500);
-    
-    return () => clearTimeout(loadTimer);
+    const loadAssets = async () => {
+      const loaded = await preloadAssets();
+      setAssetsLoaded(loaded);
+      
+      // Only start the page load timer after assets are loaded
+      if (loaded) {
+        const loadTimer = setTimeout(() => {
+          setPageLoaded(true);
+        }, 500);
+        return () => clearTimeout(loadTimer);
+      }
+    };
+
+    loadAssets();
   }, []);
 
   useEffect(() => {
-    // Load particles
-    if (typeof window !== "undefined") {
+    // Load particles only after assets are loaded
+    if (typeof window !== "undefined" && assetsLoaded) {
       try {
         require("../components/particles/render");
       } catch (error) {
         console.error("Error loading particles/render:", error);
       }
     }
-  }, []);
+  }, [assetsLoaded]);
 
-  // Calculate title opacity including page load state
-  const titleOpacity = pageLoaded ? Math.max(0, earthOpacity * 1.5) : 0;
+  // Calculate title opacity including page load and asset load state
+  const titleOpacity = (pageLoaded && assetsLoaded) ? Math.max(0, earthOpacity * 1.5) : 0;
 
   return (
     <Frame ref={frameRef}>
