@@ -1,12 +1,13 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ContentTitle, ContentText } from "../styled/TextElements";
 import { FloatingElement } from "../styled/Layout";
 import { NeonContainer, NeonCircle } from '../styled/Effects';
 import CardGallery from "../CardGallery";
+import { useRef, useState, useEffect } from "react";
 
 const Section = styled.section`
   height: 100vh;
-  background-color: rgba(3, 9, 18, 0.95); // Updated to match the dark blue-black theme
+  background-color: rgba(0, 0, 0, 0.95); // Blends with the black background
   color: white;
   display: flex;
   flex-direction: column;
@@ -25,7 +26,80 @@ const Section = styled.section`
   }
 `;
 
+const StyledCardGallery = styled(CardGallery)`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const CarouselContainer = styled.div`
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+  display: none;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const CarouselWrapper = styled.div`
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+`;
+
+const CarouselCard = styled.div`
+  flex: 0 0 100%;
+  padding: 10px;
+  box-sizing: border-box;
+`;
+
+const textAppear = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const SmallContentTitle = styled(ContentTitle)`
+  @media (max-width: 768px) {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+  }
+  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
+`;
+
+const SmallContentText = styled(ContentText)`
+  @media (max-width: 768px) {
+    font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+  }
+  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
+  animation-delay: 0.2s;
+`;
+
 export default function ContentSection({ inView, parallaxX1, parallaxY1, parallaxX2, parallaxY2 }) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const carouselRef = useRef(null);
+  const cardCount = 3; // Number of cards in the gallery
+
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % cardCount);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prevSlide) => (prevSlide - 1 + cardCount) % cardCount);
+  };
+
+  useEffect(() => {
+    if (carouselRef.current) {
+      carouselRef.current.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+  }, [currentSlide]);
+
   return (
     <NeonContainer>
       <Section>
@@ -40,7 +114,8 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
             transition: 'opacity 0.5s ease-in-out'
           }}
         />
-        <FloatingElement 
+
+<FloatingElement 
           top="70%" 
           left="80%" 
           translateX={`${parallaxX2}px`} 
@@ -52,22 +127,29 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
           }}
         />
         
-        <ContentTitle 
+        <SmallContentTitle 
           inView={inView}
           style={{
             textShadow: '0 0 10px rgba(0, 153, 255, 0.5)'
           }}
         >
           Welcome to the Next Level
-        </ContentTitle>
-        <ContentText inView={inView}>
+        </SmallContentTitle>
+        <SmallContentText inView={inView}>
           As you scroll down, the earth image dissolves away, revealing this content section.
           The transition is smooth and gives a sense of moving from one world to another.
           Each element appears with its own subtle animation.
-        </ContentText>
+        </SmallContentText>
         
-        {/* Add the card gallery here */}
-        <CardGallery inView={inView} />
+        <StyledCardGallery inView={inView} />
+
+        <CarouselContainer>
+          <CarouselWrapper ref={carouselRef}>
+            <CarouselCard><CardGallery inView={inView} /></CarouselCard>
+            <CarouselCard><CardGallery inView={inView} /></CarouselCard>
+            <CarouselCard><CardGallery inView={inView} /></CarouselCard>
+          </CarouselWrapper>
+        </CarouselContainer>
       </Section>
       
       <NeonCircle 

@@ -1,30 +1,32 @@
-'use client';
-import { useEffect, useState } from "react";
-import Name from "./name";
-import PC from "./pc";
-import dynamic from 'next/dynamic'
+'use client'
+import styled from "styled-components";
+import SpaceR from "../components/SpaceR";
+import { Frame } from "../components/styled/Layout";
+import dynamic from "next/dynamic";
 
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(3, 9, 18);
+  color: white;
+  position: relative;
+  overflow: hidden;
+`;
 
-
-const Loading = ({ data }) => {
+const SpaceLoading = () => {
   return (
-    <loading
-      style={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        background:"url('/images/R.jpg')",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <PC />
-        <Name progress={data} />
-    </loading>
+    <Frame>
+      <Container>
+        <SpaceR />
+      </Container>
+    </Frame>
   );
 };
 
-export default dynamic(() => Promise.resolve(Loading), {
+export default dynamic(() => Promise.resolve(SpaceLoading), {
   ssr: false
 })
