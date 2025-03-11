@@ -7,7 +7,7 @@ const Section = styled.section`
   position: relative;
   display: flex;
   justify-content: center;
-  background-color: black;
+  background-color: rgb(3, 9, 18); // Updated to match the dark blue-black theme
   align-items: center;
   overflow: hidden;
   scroll-snap-align: start;
@@ -19,7 +19,7 @@ const Section = styled.section`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: rgb(3, 9, 18); // Updated to match the dark blue-black theme
     background-image: url('/images/earth.jpg');
     background-size: cover;
     background-position: center;

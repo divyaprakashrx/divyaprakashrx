@@ -19,3 +19,26 @@ export const pulseLight = keyframes`
     background-size: 220% 220%;
   }
 `;
+
+export const cardFloat = keyframes`
+  0% {
+    transform: translateY(0px) scale(0.98);
+  }
+  50% {
+    transform: translateY(-15px) scale(1);
+  }
+  100% {
+    transform: translateY(0px) scale(0.98);
+  }
+`;
+
+export const cardAppear = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+`;

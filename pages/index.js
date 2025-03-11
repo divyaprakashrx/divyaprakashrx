@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { Frame } from "../components/styled/Layout";
 import EarthSection from "../components/sections/EarthSection";
 import ContentSection from "../components/sections/ContentSection";
+import FluidSection from "../components/sections/FluidSection";
 import useScrollEffects from "../hooks/useScrollEffects";
 import { preloadAssets } from '../utils/preloadAssets';
 
@@ -18,7 +19,8 @@ export default function Home() {
     parallaxX1,
     parallaxY1,
     parallaxX2,
-    parallaxY2
+    parallaxY2,
+    fluidSectionInView
   } = useScrollEffects(frameRef);
 
   // Handle asset loading and page load animation
@@ -39,16 +41,6 @@ export default function Home() {
     loadAssets();
   }, []);
 
-  useEffect(() => {
-    // Load particles only after assets are loaded
-    if (typeof window !== "undefined" && assetsLoaded) {
-      try {
-        require("../components/particles/render");
-      } catch (error) {
-        console.error("Error loading particles/render:", error);
-      }
-    }
-  }, [assetsLoaded]);
 
   // Calculate title opacity including page load and asset load state
   const titleOpacity = (pageLoaded && assetsLoaded) ? Math.max(0, earthOpacity * 1.5) : 0;
@@ -69,7 +61,9 @@ export default function Home() {
         parallaxY2={parallaxY2}
       />
       
-      <canvas id="swarm"></canvas>
+      <FluidSection 
+        inView={fluidSectionInView}
+      />
     </Frame>
   );
 }

@@ -1,9 +1,11 @@
 import "../styles/globals.css";
-import Router from "next/router";
+import NavBar from "../components/NavBar";
+import Router, { useRouter } from "next/router"; // Fixed import to include Router
 import { useEffect, useState } from "react";
 import Loading from "../components/loading";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
 
@@ -63,7 +65,12 @@ function MyApp({ Component, pageProps }) {
     return <Loading data={progress} />;
   }
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <NavBar />
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default MyApp;

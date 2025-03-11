@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { ContentTitle, ContentText } from "../styled/TextElements";
 import { FloatingElement } from "../styled/Layout";
 import { NeonContainer, NeonCircle } from '../styled/Effects';
+import CardGallery from "../CardGallery";
 
 const Section = styled.section`
   height: 100vh;
-  background-color: rgba(18, 18, 18, 0.95);
+  background-color: rgba(3, 9, 18, 0.95); // Updated to match the dark blue-black theme
   color: white;
   display: flex;
   flex-direction: column;
@@ -64,6 +65,9 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
           The transition is smooth and gives a sense of moving from one world to another.
           Each element appears with its own subtle animation.
         </ContentText>
+        
+        {/* Add the card gallery here */}
+        <CardGallery inView={inView} />
       </Section>
       
       <NeonCircle 
