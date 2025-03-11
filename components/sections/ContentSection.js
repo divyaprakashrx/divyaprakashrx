@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { ContentTitle, ContentText } from "../styled/TextElements";
 import { FloatingElement } from "../styled/Layout";
 import { NeonContainer, NeonCircle } from '../styled/Effects';
@@ -20,10 +20,6 @@ const Section = styled.section`
   overflow: hidden;
   z-index: 2;
   
-  @media (max-width: 768px) {
-    justify-content: flex-start;
-    padding-top: 4rem;
-  }
 `;
 
 const StyledCardGallery = styled(CardGallery)`
@@ -36,23 +32,63 @@ const CarouselContainer = styled.div`
   width: 90%;
   max-width: 600px;
   margin: 20px auto;
+  height: auto;
   display: none;
   overflow: hidden;
+  position: relative;
 
   @media (max-width: 768px) {
     display: block;
+    margin: 10px auto;
+    height: 400px;
   }
 `;
 
 const CarouselWrapper = styled.div`
   display: flex;
   transition: transform 0.5s ease-in-out;
+  touch-action: pan-x;
+  height: 100%;
+  ${props => props.autoScroll && !props.isPaused && css`
+    transition: transform ${props.transitionSpeed || 0.5}s ease-in-out;
+  `}
 `;
 
 const CarouselCard = styled.div`
   flex: 0 0 100%;
-  padding: 10px;
+  padding: 0;
   box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CarouselButton = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 153, 255, 0.3);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 20px;
+  box-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
+  
+  &:first-of-type {
+    left: 5px;
+  }
+  
+  &:last-of-type {
+    right: 5px;
+  }
 `;
 
 const textAppear = keyframes`
@@ -68,14 +104,19 @@ const textAppear = keyframes`
 
 const SmallContentTitle = styled(ContentTitle)`
   @media (max-width: 768px) {
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    margin-bottom: 1rem;
   }
   animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
 `;
 
+// Make text smaller for narrower screens
 const SmallContentText = styled(ContentText)`
   @media (max-width: 768px) {
-    font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+    font-size: clamp(0.75rem, 1.2vw, 1rem);
+    line-height: 1.4;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
   }
   animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
   animation-delay: 0.2s;
@@ -83,8 +124,12 @@ const SmallContentText = styled(ContentText)`
 
 export default function ContentSection({ inView, parallaxX1, parallaxY1, parallaxX2, parallaxY2 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const carouselRef = useRef(null);
+  const touchStartXRef = useRef(0);
   const cardCount = 3; // Number of cards in the gallery
+  const autoScrollInterval = 5000; // Time in ms between auto scrolls
+  const transitionSpeed = 0.8; // Transition speed in seconds
 
   const nextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % cardCount);
@@ -94,11 +139,54 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
     setCurrentSlide((prevSlide) => (prevSlide - 1 + cardCount) % cardCount);
   };
 
+  // Auto scroll functionality
+  useEffect(() => {
+    let interval;
+    if (inView && !isPaused) {
+      interval = setInterval(() => {
+        nextSlide();
+      }, autoScrollInterval);
+    }
+    return () => clearInterval(interval);
+  }, [inView, isPaused]);
+
   useEffect(() => {
     if (carouselRef.current) {
       carouselRef.current.style.transform = `translateX(-${currentSlide * 100}%)`;
     }
   }, [currentSlide]);
+
+  // Add touch swipe support for mobile
+  const handleTouchStart = (e) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    setIsPaused(true); // Pause auto-scroll on touch
+  };
+
+  const handleTouchEnd = (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartXRef.current - touchEndX;
+    
+    // If swiped more than 50px, change slide
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        nextSlide(); // Swipe left -> next slide
+      } else {
+        prevSlide(); // Swipe right -> previous slide
+      }
+    }
+    
+    // Resume auto-scroll after a short delay
+    setTimeout(() => setIsPaused(false), 2000);
+  };
+
+  // Pause on hover
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
 
   return (
     <NeonContainer>
@@ -115,7 +203,7 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
           }}
         />
 
-<FloatingElement 
+        <FloatingElement 
           top="70%" 
           left="80%" 
           translateX={`${parallaxX2}px`} 
@@ -141,14 +229,28 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
           Each element appears with its own subtle animation.
         </SmallContentText>
         
-        <StyledCardGallery inView={inView} />
+        {/* <StyledCardGallery inView={inView} /> */}
 
         <CarouselContainer>
-          <CarouselWrapper ref={carouselRef}>
-            <CarouselCard><CardGallery inView={inView} /></CarouselCard>
-            <CarouselCard><CardGallery inView={inView} /></CarouselCard>
-            <CarouselCard><CardGallery inView={inView} /></CarouselCard>
+          <CarouselButton onClick={prevSlide}>&#10094;</CarouselButton>
+          <CarouselWrapper 
+            ref={carouselRef}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            autoScroll={true}
+            isPaused={isPaused}
+            transitionSpeed={transitionSpeed}
+          >
+            {/* Create clones for infinite scroll effect */}
+            {[...Array(cardCount)].map((_, index) => (
+              <CarouselCard key={index}>
+                <CardGallery inView={true} cardIndex={index} />
+              </CarouselCard>
+            ))}
           </CarouselWrapper>
+          <CarouselButton onClick={nextSlide}>&#10095;</CarouselButton>
         </CarouselContainer>
       </Section>
       

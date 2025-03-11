@@ -8,6 +8,12 @@ const CardContainer = styled.div`
   margin: 15px;
   transition: transform 0.3s ease;
   
+  @media (max-width: 768px) {
+    width: 200px;
+    height: 280px;
+    margin: 5px;
+  }
+  
   &:hover {
     transform: translateY(-10px) scale(1.02);
   }
