@@ -41,7 +41,7 @@ export const ContentTitle = styled.h2`
   padding: 0 1rem;
   
   @media (max-width: 768px) {
-    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
     margin-bottom: 0.75rem;
   }
 `;
@@ -60,7 +60,7 @@ export const ContentText = styled.p`
   margin: 0 auto;
 
   @media (max-width: 768px) {
-    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    font-size: clamp(0.8rem, 1.2vw, 0.95rem);
     max-width: 95%;
     padding: 0 1rem;
     line-height: 1.4;

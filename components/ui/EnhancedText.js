@@ -17,8 +17,8 @@ export const SmallContentTitle = styled(ContentTitle)`
   animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
   
   @media (max-width: 768px) {
-    font-size: clamp(1.3rem, 2.2vw, 1.6rem);
-    margin-bottom: 0.8rem;
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    margin-bottom: 0.7rem;
   }
 `;
 
@@ -27,10 +27,10 @@ export const SmallContentText = styled(ContentText)`
   animation-delay: 0.2s;
   
   @media (max-width: 768px) {
-    font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+    font-size: clamp(0.7rem, 1vw, 0.8rem);
     line-height: 1.3;
-    padding: 0 0.75rem;
-    margin-bottom: 0.75rem;
+    padding: 0 0.5rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -40,8 +40,8 @@ export const SectionTitle = styled(ContentTitle)`
   color: ${siteConfig.theme.text.primary};
   
   @media (max-width: 768px) {
-    font-size: clamp(1.5rem, 2.5vw, 1.8rem);
-    margin-bottom: 1rem;
+    font-size: clamp(1.3rem, 2.2vw, 1.5rem);
+    margin-bottom: 0.8rem;
   }
 `;
 
@@ -51,7 +51,7 @@ export const SectionText = styled(ContentText)`
   max-width: 800px;
   
   @media (max-width: 768px) {
-    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-size: clamp(0.75rem, 1vw, 0.9rem);
     margin-bottom: 1.5rem;
   }
 `;

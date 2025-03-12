@@ -170,7 +170,7 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
     // Animate the cosmic background
     const animate = () => {
       // Use time-based animation like SpaceR does instead of incremental
-      const time = Date.now() / 1000;
+      const time = Date.now() / 10000;
       
       /* 
       // Star animation - COMMENTED OUT

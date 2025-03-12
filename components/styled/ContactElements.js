@@ -58,27 +58,15 @@ export const SmallContentText = styled(ContentText)`
 
 // Contact specific styles - Enhanced styling
 export const ContactContainer = styled.div`
-  background: linear-gradient(to bottom, rgba(5, 15, 30, 0.85), rgba(2, 10, 20, 0.9)); /* Darker, more contrasting background */
-  border-radius: 15px;
-  padding: 3rem 1rem;
-  position: relative;
-  overflow: hidden;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  box-shadow: ${siteConfig.theme.shadow.medium};
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 10;
   
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at center, rgba(0, 120, 255, 0.05) 0%, transparent 70%);
-    z-index: -1;
+  @media (max-width: 768px) {
+    padding: 1.5rem 0.75rem;
   }
 `;
 
@@ -159,5 +147,16 @@ export const ContactLink = styled.a`
   @media (max-width: 768px) {
     font-size: 0.9rem;
     margin-top: 0.75rem;
+  }
+`;
+
+export const ContactCardTitle = styled.h3`
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: ${siteConfig.theme.text.primary};
+  
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
   }
 `;
