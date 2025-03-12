@@ -2,11 +2,9 @@ import styled from "styled-components";
 
 export const Frame = styled.div`
   width: 100%;
-  height: 100vh;
   min-width: 100%;
   min-height: 100vh;
   overflow-y: auto;
-  scroll-snap-type: y mandatory;
   position: relative;
   scroll-behavior: smooth;
 `;

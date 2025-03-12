@@ -23,6 +23,7 @@ export const siteConfig = {
     // Background colors
     background: {
       main: "rgba(0, 0, 0, 0.95)",
+      grey: "rgba(20, 20, 20, 0.95)",
       card: "rgba(0, 0, 0, 0.3)",
       overlay: "rgba(20, 70, 120, 0.9)",
       blur: "rgba(0, 0, 0, 0.5)"

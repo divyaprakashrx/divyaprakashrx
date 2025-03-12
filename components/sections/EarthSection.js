@@ -6,7 +6,6 @@ import { siteContent } from '../../config/content';
 const Section = styled.section`
   width: 100%;
   height: 100vh;
-  position: relative;
   display: flex;
   justify-content: center;
   background-color: rgb(3, 9, 18);

@@ -4,7 +4,6 @@ import { siteConfig } from "../../config/site";
 export const NeonContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 100vh;
   
   &::after {
     content: '';
