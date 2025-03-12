@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { siteConfig } from "../../config/site";
 
 export const NeonContainer = styled.div`
   position: relative;
@@ -12,25 +13,19 @@ export const NeonContainer = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    box-shadow: 0 0 30px 10px rgba(0, 153, 255, 0.2) inset;
+    box-shadow: 0 0 30px rgba(${siteConfig.theme.neon.red}, ${siteConfig.theme.neon.green}, ${siteConfig.theme.neon.blue}, ${siteConfig.theme.neon.alpha}) inset;
     pointer-events: none;
+    opacity: 0.5;
   }
 `;
 
 export const NeonCircle = styled.div`
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at center,
-    rgba(0, 153, 255, 0.2) 0%,
-    rgba(0, 153, 255, 0.15) 40%,
-    rgba(0, 153, 255, 0.05) 100%
-  );
+  background: rgba(${siteConfig.theme.neon.red}, ${siteConfig.theme.neon.green}, ${siteConfig.theme.neon.blue}, 0.15);
   box-shadow: 
-    0 0 20px 5px rgba(0, 153, 255, 0.1),
-    0 0 40px 10px rgba(0, 153, 255, 0.05),
-    inset 0 0 30px 10px rgba(0, 153, 255, 0.01);
-  z-index: 1;
-  backdrop-filter: blur(5px);
-  mix-blend-mode: screen;
+    0 0 60px rgba(${siteConfig.theme.neon.red}, ${siteConfig.theme.neon.green}, ${siteConfig.theme.neon.blue}, 0.6),
+    0 0 100px rgba(${siteConfig.theme.neon.red}, ${siteConfig.theme.neon.green}, ${siteConfig.theme.neon.blue}, 0.4),
+    0 0 150px rgba(${siteConfig.theme.neon.red}, ${siteConfig.theme.neon.green}, ${siteConfig.theme.neon.blue}, 0.2);
+  z-index: 0;
 `;

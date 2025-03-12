@@ -5,7 +5,6 @@ const CardContainer = styled.div`
   position: relative;
   width: 270px;
   height: 380px;
-  margin: 15px;
   transition: transform 0.3s ease;
   
   @media (max-width: 768px) {
@@ -34,16 +33,37 @@ const Card = styled.div`
 
 const CardImage = styled.img`
   width: 100%;
-  height: 100%;
+  height: 70%;
   object-fit: cover;
-  border-radius: 24px;
+  border-radius: 24px 24px 0 0;
 `;
 
-const AnimatedCard = ({ imageUrl, delay = "0s", alt = "" }) => {
+const CardContent = styled.div`
+  padding: 15px;
+  color: white;
+  text-align: center;
+`;
+
+const CardTitle = styled.h3`
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+`;
+
+const CardDescription = styled.p`
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+`;
+
+const AnimatedCard = ({ imageUrl, title, description, delay = "0s", alt = "" }) => {
   return (
     <CardContainer>
       <Card delay={delay}>
         <CardImage src={imageUrl} alt={alt} />
+        <CardContent>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardContent>
       </Card>
     </CardContainer>
   );

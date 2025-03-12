@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Title } from "../styled/TextElements";
+import { siteContent } from '../../config/content';
 
 const Section = styled.section`
   width: 100%;
@@ -86,7 +87,7 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
         starsRef.current.push({
           element: star,
           baseOpacity: opacity,
-          pulseSpeed: Math.random() * 0.01 + 0.005,
+          pulseSpeed: Math.random() * 0.01 + 0.05,
           x, y,
           isGlowing: Math.random() > 0.7 // Some stars will have a stronger glow effect
         });
@@ -177,7 +178,7 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
       // Animate stars with subtle twinkling
       starsRef.current.forEach(star => {
         // Twinkling effect
-        const pulseFactor = Math.sin(time * star.pulseSpeed * Math.PI) * 0.3 + 0.7;
+        const pulseFactor = Math.sin(time * star.pulseSpeed * Math.PI) * 0.5 + 0.7;
         star.element.setAttribute("opacity", star.baseOpacity * pulseFactor * opacity);
         
         // Add glow effect to some stars
@@ -242,7 +243,7 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
           </defs>
         </svg>
       </CosmicBackground>
-      <Title opacity={titleOpacity}>divya prakash</Title>
+      <Title opacity={titleOpacity}>{siteContent.mainTitle}</Title>
     </Section>
   );
 }

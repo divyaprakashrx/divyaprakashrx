@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import AnimatedCard from "./AnimatedCard";
+import { siteContent } from "../config/content";
 
 const GalleryContainer = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const CardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   
   @media (max-width: 768px) {
     flex-wrap: nowrap;
@@ -31,22 +32,24 @@ const CardWrapper = styled.div`
   }
 `;
 
-const CardGallery = ({ inView }) => {
-  const cardImages = [
-    "/images/earth2.jpg", 
-    "/images/earth2.jpg", 
-    "/images/earth2.jpg"
-  ];
+const CardGallery = ({ inView, cardIndex }) => {
+  // If cardIndex is provided, render just that specific card for carousels
+  // Otherwise render all cards for gallery view
+  const cardsToRender = cardIndex !== undefined
+    ? [siteContent.cards[cardIndex]]
+    : siteContent.cards;
   
   return (
     <GalleryContainer>
       <CardWrapper>
-        {cardImages.map((image, index) => (
+        {cardsToRender.map((card, index) => (
           <AnimatedCard 
-            key={index} 
-            imageUrl={image} 
+            key={card.id} 
+            imageUrl={card.imageUrl} 
+            title={card.title}
+            description={card.description}
             delay={`${0.2 * (index + 1)}s`} 
-            alt={`Card ${index + 1}`} 
+            alt={card.title} 
           />
         ))}
       </CardWrapper>

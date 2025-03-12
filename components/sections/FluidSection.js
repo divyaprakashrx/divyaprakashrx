@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { ContentTitle, ContentText } from "../styled/TextElements";
+import { siteContent } from "../../config/content";
+import { siteConfig } from "../../config/site";
 
 const Section = styled.section`
   height: 100vh;
@@ -31,6 +33,27 @@ const Content = styled.div`
   text-align: center;
   padding: 0 2rem;
   max-width: 800px;
+`;
+
+const HighlightsList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2rem;
+  max-width: 1200px;
+  text-align: left;
+`;
+
+const HighlightItem = styled.li`
+  margin-bottom: 0.8rem;
+  padding-left: 1.5rem;
+  position: relative;
+  
+  &:before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: ${siteConfig.theme.primary.accent};
+  }
 `;
 
 export default function FluidSection({ inView }) {
@@ -468,14 +491,16 @@ export default function FluidSection({ inView }) {
             textShadow: '0 0 15px rgba(30, 100, 180, 0.8)'
           }}
         >
-          Cosmic Flow
+          {siteContent.highlights.title}
         </ContentTitle>
         <ContentText inView={inView}>
-          This simulation depicts the fluid dynamics of cosmic bodies in space.
-          The elements interact and flow around each other, representing the
-          celestial dance of nebulae and stellar gases. Touch and interact
-          with the cosmic elements to influence their movement.
+          <HighlightsList>
+                        {siteContent.highlights.items.map((item, index) => (
+                          <HighlightItem key={index}>{item}</HighlightItem>
+                        ))}
+                      </HighlightsList>
         </ContentText>
+        
       </Content>
     </Section>
   );

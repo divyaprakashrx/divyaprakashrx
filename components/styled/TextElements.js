@@ -28,8 +28,8 @@ export const Title = styled.h1`
 `;
 
 export const ContentTitle = styled.h2`
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 2rem;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: 1rem;
   text-align: center;
   opacity: ${props => props.inView ? 1 : 0};
   transform: translateY(${props => props.inView ? 0 : '20px'});

@@ -3,6 +3,10 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { navigationItems } from '../utils/navigation';
+import { siteContent } from '../config/content';
+import { siteConfig } from '../config/site';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 
 const NavContainer = styled.nav`
   position: fixed;
@@ -12,7 +16,7 @@ const NavContainer = styled.nav`
   width: 90%;
   max-width: 1200px;
   height: 60px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${siteConfig.theme.background.blur};
   backdrop-filter: blur(15px);
   display: flex;
   justify-content: space-between;
@@ -20,10 +24,10 @@ const NavContainer = styled.nav`
   padding: 0 2rem;
   z-index: 100;
   font-family: var(--font-mono);
-  border-radius: 30px; /* Changed to 30px for a 50% rounded look relative to height */
+  border-radius: 30px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3),
-              0 0 20px rgba(0, 153, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+              0 0 20px ${siteConfig.theme.primary.light};
+  border: 1px solid ${siteConfig.theme.border.light};
   
   @media (max-width: 768px) {
     width: calc(100% - 30px);
@@ -31,7 +35,7 @@ const NavContainer = styled.nav`
 `;
 
 const Logo = styled.div`
-  color: #fff;
+  color: ${siteConfig.theme.text.primary};
   font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
@@ -46,16 +50,16 @@ const NavItems = styled.ul`
     display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
     flex-direction: column;
     position: absolute;
-    top: 70px; /* adjusted to account for border-radius */
+    top: 70px;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: ${siteConfig.theme.background.blur};
     backdrop-filter: blur(15px);
     padding: 1rem 0;
     gap: 0;
-    border-radius: 0 0 30px 30px; /* Updated to match main navbar */
+    border-radius: 0 0 30px 30px;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid ${siteConfig.theme.border.light};
     border-top: none;
   }
 `;
@@ -70,7 +74,7 @@ const NavItem = styled.li`
     left: 0;
     width: 0;
     height: 2px;
-    background-color: #00a8ff;
+    background-color: ${siteConfig.theme.primary.accent};
     transition: width 0.3s ease;
   }
 
@@ -87,12 +91,12 @@ const NavItem = styled.li`
 `;
 
 const NavLink = styled.a`
-  color: #fff;
+  color: ${siteConfig.theme.text.primary};
   text-decoration: none;
   transition: color 0.3s ease;
 
   &:hover {
-    color: #00a8ff;
+    color: ${siteConfig.theme.primary.accent};
   }
 `;
 
@@ -100,12 +104,34 @@ const MenuButton = styled.button`
   display: none;
   background: none;
   border: none;
-  color: white;
+  color: ${siteConfig.theme.text.primary};
   font-size: 1.5rem;
   cursor: pointer;
 
   @media (max-width: 768px) {
     display: block;
+  }
+`;
+
+const SocialIcons = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  
+  @media (max-width: 768px) {
+    margin-top: ${({ isOpen }) => (isOpen ? '1rem' : '0')};
+    justify-content: center;
+  }
+`;
+
+const SocialLink = styled.a`
+  color: ${siteConfig.theme.text.primary};
+  font-size: 1.2rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+  
+  &:hover {
+    color: ${siteConfig.theme.primary.accent};
+    transform: translateY(-2px);
   }
 `;
 
@@ -145,6 +171,23 @@ const NavBar = () => {
             </Link>
           </NavItem>
         ))}
+        {router.pathname === '/' && siteContent.navigation.additionalItems.map((item, index) => (
+          <NavItem key={`additional-${index}`}>
+            <Link href={item.path} passHref legacyBehavior>
+              <NavLink>{item.title}</NavLink>
+            </Link>
+          </NavItem>
+        ))}
+        
+        {/* Social icons */}
+        <SocialIcons isOpen={isOpen}>
+          <SocialLink href={siteContent.contact.social.linkedin.url} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <FontAwesomeIcon icon={faLinkedin} />
+          </SocialLink>
+          <SocialLink href={siteContent.contact.social.github.url} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <FontAwesomeIcon icon={faGithub} />
+          </SocialLink>
+        </SocialIcons>
       </NavItems>
     </NavContainer>
   );

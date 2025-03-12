@@ -4,6 +4,7 @@ import { Frame } from "../components/styled/Layout";
 import EarthSection from "../components/sections/EarthSection";
 import ContentSection from "../components/sections/ContentSection";
 import FluidSection from "../components/sections/FluidSection";
+import ContactSection from "../components/sections/ContactSection";
 import useScrollEffects from "../hooks/useScrollEffects";
 import { preloadAssets } from '../utils/preloadAssets';
 
@@ -20,7 +21,8 @@ export default function Home() {
     parallaxY1,
     parallaxX2,
     parallaxY2,
-    fluidSectionInView
+    fluidSectionInView,
+    contactSectionInView
   } = useScrollEffects(frameRef);
 
   // Handle asset loading and page load animation
@@ -41,18 +43,14 @@ export default function Home() {
     loadAssets();
   }, []);
 
-
-  // Calculate title opacity including page load and asset load state
-  const titleOpacity = (pageLoaded && assetsLoaded) ? Math.max(0, earthOpacity * 1.5) : 0;
-
   return (
     <Frame ref={frameRef}>
       <EarthSection 
-        zoomLevel={zoomLevel} 
+        inView={true} 
+        zoomLevel={zoomLevel}
         opacity={earthOpacity}
-        titleOpacity={titleOpacity}
+        loaded={pageLoaded && assetsLoaded}
       />
-      
       <ContentSection 
         inView={contentInView}
         parallaxX1={parallaxX1}
@@ -60,10 +58,8 @@ export default function Home() {
         parallaxX2={parallaxX2}
         parallaxY2={parallaxY2}
       />
-      
-      <FluidSection 
-        inView={fluidSectionInView}
-      />
+      <FluidSection inView={fluidSectionInView} />
+      <ContactSection inView={contactSectionInView} />
     </Frame>
   );
 }

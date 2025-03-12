@@ -159,7 +159,7 @@ const SpaceR = ({ width = '100%', height = '100%' }) => {
         orbital.setAttribute("cy", centerY);
         orbital.setAttribute("r", radius);
         orbital.setAttribute("fill", "none");
-        orbital.setAttribute("stroke", `rgba(30, 100, 180, ${0.2 - i * 0.05})`);
+        orbital.setAttribute("stroke", `rgba(255, 255, 255, ${0.2 - i * 0.05})`);
         orbital.setAttribute("stroke-width", "1");
         orbital.setAttribute("stroke-dasharray", "3,3");
         orbitalsGroup.appendChild(orbital);
