@@ -132,14 +132,32 @@ export default function FluidSection({ inView }) {
       const blobCount = 6; // Reduced from 10 for cleaner appearance
       const blobs = [];
       
-      // Create space/Earth-inspired blue color palette
+      // Create space-inspired color palette with blue, green, yellow
       const colorPalette = [
-        'hsla(220, 85%, 30%, 0.3)',  // Deep ocean blue
-        'hsla(200, 95%, 40%, 0.3)',  // Earth blue
-        'hsla(210, 80%, 50%, 0.3)',  // Sky blue
-        'hsla(195, 90%, 35%, 0.3)',  // Deep aqua blue
-        'hsla(215, 70%, 25%, 0.3)',  // Dark navy blue
-        'hsla(205, 85%, 45%, 0.3)',  // Medium blue
+        {
+          main: 'rgba(33, 150, 243, 0.15)', // Blue
+          glow: 'rgba(33, 150, 243, 0.05)'
+        },
+        {
+          main: 'rgba(76, 175, 80, 0.15)', // Green
+          glow: 'rgba(76, 175, 80, 0.05)'
+        },
+        {
+          main: 'rgba(255, 235, 59, 0.12)', // Yellow
+          glow: 'rgba(255, 235, 59, 0.04)'
+        },
+        {
+          main: 'rgba(3, 169, 244, 0.15)', // Light Blue
+          glow: 'rgba(3, 169, 244, 0.05)'
+        },
+        {
+          main: 'rgba(139, 195, 74, 0.15)', // Light Green
+          glow: 'rgba(139, 195, 74, 0.05)'
+        },
+        {
+          main: 'rgba(255, 193, 7, 0.12)', // Amber
+          glow: 'rgba(255, 193, 7, 0.04)'
+        }
       ];
       
       for (let i = 0; i < blobCount; i++) {
@@ -395,7 +413,7 @@ export default function FluidSection({ inView }) {
         );
         
         // Extract base color for manipulating
-        const baseColor = blob.color;
+        const baseColor = blob.color.main;
         const coreColor = baseColor.replace('0.35', '0.7'); // Brighter core
         const midColor = baseColor.replace('0.35', '0.5');
         const edgeColor = baseColor.replace('0.35', '0.1'); // Faded edge
@@ -458,8 +476,8 @@ export default function FluidSection({ inView }) {
               point1.x, point1.y, point2.x, point2.y
             );
             
-            const color1 = blob1.color.replace('0.3', strength * 0.25);
-            const color2 = blob2.color.replace('0.3', strength * 0.25);
+            const color1 = blob1.color.glow.replace('0.3', strength * 0.25);
+            const color2 = blob2.color.glow.replace('0.3', strength * 0.25);
             
             gradient.addColorStop(0, color1);
             gradient.addColorStop(1, color2);

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Title } from "../styled/TextElements";
+import AnimatedTitle from "../styled/AnimatedTitle";
 import { siteContent } from '../../config/content';
 
 const Section = styled.section`
@@ -109,12 +110,44 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
         gradient.setAttribute("cy", "50%");
         gradient.setAttribute("r", "50%");
         
-        // Create ethereal blue colors
-        const colors = [
-          { offset: "0%", color: "rgba(50, 100, 200, 0.2)" },
-          { offset: "50%", color: "rgba(20, 60, 120, 0.1)" },
-          { offset: "100%", color: "rgba(5, 30, 60, 0)" }
-        ];
+        // Create vibrant colorful gradients - focusing on green and yellow
+        let colors;
+        switch (i % 5) {
+          case 0: // Vibrant blue
+            colors = [
+              { offset: "0%", color: "rgba(80, 150, 250, 0.4)" },
+              { offset: "50%", color: "rgba(40, 100, 200, 0.2)" },
+              { offset: "100%", color: "rgba(10, 50, 150, 0)" }
+            ];
+            break;
+          case 1: // Emerald green (replacing purple/pink)
+            colors = [
+              { offset: "0%", color: "rgba(80, 220, 120, 0.35)" },
+              { offset: "50%", color: "rgba(40, 180, 100, 0.2)" },
+              { offset: "100%", color: "rgba(20, 100, 60, 0)" }
+            ];
+            break;
+          case 2: // Teal/cyan
+            colors = [
+              { offset: "0%", color: "rgba(60, 220, 220, 0.3)" },
+              { offset: "50%", color: "rgba(30, 160, 180, 0.15)" },
+              { offset: "100%", color: "rgba(10, 80, 100, 0)" }
+            ];
+            break;
+          case 3: // Gold/yellow
+            colors = [
+              { offset: "0%", color: "rgba(255, 215, 80, 0.25)" },
+              { offset: "50%", color: "rgba(200, 170, 40, 0.12)" },
+              { offset: "100%", color: "rgba(120, 100, 10, 0)" }
+            ];
+            break;
+          default: // Lime green
+            colors = [
+              { offset: "0%", color: "rgba(150, 220, 80, 0.35)" },
+              { offset: "50%", color: "rgba(100, 180, 40, 0.18)" },
+              { offset: "100%", color: "rgba(50, 120, 20, 0)" }
+            ];
+        }
         
         colors.forEach(color => {
           const stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
@@ -238,7 +271,8 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
           </defs>
         </svg>
       </CosmicBackground>
-      <Title opacity={titleOpacity}>{siteContent.mainTitle}</Title>
+      {/* Reverse the opacity behavior: 1 - titleOpacity makes it visible on load and fade out on scroll */}
+      <AnimatedTitle opacity={1 - titleOpacity}>{siteContent.mainTitle}</AnimatedTitle>
     </Section>
   );
 }

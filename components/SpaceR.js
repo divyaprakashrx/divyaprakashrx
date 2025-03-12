@@ -109,8 +109,8 @@ const SpaceR = ({ width = '100%', height = '100%' }) => {
         nebula.setAttribute("rx", `${rx}%`);
         nebula.setAttribute("ry", `${ry}%`);
         
-        // Alternate between the two nebula gradients
-        const gradientId = i % 2 === 0 ? "nebulaGradient1" : "nebulaGradient2";
+        // Alternate between blue, green, and yellow-themed nebula gradients
+        const gradientId = i % 3 === 0 ? "nebulaGradientBlue" : (i % 3 === 1 ? "nebulaGradientGreen" : "nebulaGradientGold");
         nebula.setAttribute("fill", `url(#${gradientId})`);
         
         nebulaeGroup.appendChild(nebula);
@@ -333,7 +333,7 @@ const SpaceR = ({ width = '100%', height = '100%' }) => {
           
           {/* Pulsating gradient */}
           <radialGradient id="pulsatingGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-            <stop offset="0%" stopColor="#1F8BE6" />
+            <stop offset="0%" stopColor="#2196F3" />
             <stop offset="70%" stopColor="#0F4C81" />
             <stop offset="100%" stopColor="#0A1A40" />
           </radialGradient>
@@ -349,6 +349,25 @@ const SpaceR = ({ width = '100%', height = '100%' }) => {
             <stop offset="0%" stopColor="rgba(60, 50, 180, 0.4)" />
             <stop offset="70%" stopColor="rgba(30, 20, 100, 0.2)" />
             <stop offset="100%" stopColor="rgba(10, 5, 50, 0)" />
+          </radialGradient>
+
+          {/* Enhanced Nebula Gradients */}
+          <radialGradient id="nebulaGradientBlue" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
+            <stop offset="0%" stopColor="rgba(80, 150, 250, 0.45)" />
+            <stop offset="70%" stopColor="rgba(40, 100, 200, 0.25)" />
+            <stop offset="100%" stopColor="rgba(10, 50, 150, 0)" />
+          </radialGradient>
+          
+          <radialGradient id="nebulaGradientGreen" cx="50%" cy="50%" r="60%" fx="50%" fy="50%">
+            <stop offset="0%" stopColor="rgba(80, 220, 120, 0.4)" />
+            <stop offset="70%" stopColor="rgba(40, 180, 100, 0.2)" />
+            <stop offset="100%" stopColor="rgba(20, 100, 60, 0)" />
+          </radialGradient>
+          
+          <radialGradient id="nebulaGradientGold" cx="50%" cy="50%" r="65%" fx="50%" fy="50%">
+            <stop offset="0%" stopColor="rgba(255, 215, 80, 0.35)" />
+            <stop offset="70%" stopColor="rgba(200, 170, 40, 0.18)" />
+            <stop offset="100%" stopColor="rgba(120, 100, 10, 0)" />
           </radialGradient>
         </defs>
         

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import styled from "styled-components";
 import { NeonContainer, NeonCircle } from '../styled/Effects';
 import { FloatingElement } from "../styled/Layout";
 import { siteContent } from "../../config/site-content";
@@ -13,138 +14,137 @@ import IntroductionSection from './IntroductionSection';
 // VisionSection import removed
 import ImpactAreasSection from './ImpactAreasSection';
 
+// Enhanced section background with animated gradient - renamed to avoid conflict
+const ContentSectionBackground = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(3, 9, 18, 0.97) 0%,
+    rgba(5, 15, 30, 0.97) 50%,
+    rgba(3, 9, 18, 0.97) 100%
+  );
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(33, 150, 243, 0.05) 0%, transparent 25%),
+      radial-gradient(circle at 80% 20%, rgba(76, 175, 80, 0.05) 0%, transparent 20%),
+      radial-gradient(circle at 40% 80%, rgba(255, 235, 59, 0.05) 0%, transparent 30%),
+      radial-gradient(circle at 70% 60%, rgba(3, 169, 244, 0.05) 0%, transparent 25%);
+    z-index: 0;
+  }
+`;
+
+// Add subtle animated background particles
+const BackgroundCanvas = styled.canvas`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.4;
+`;
+
 export default function ContentSection({ inView, parallaxX1, parallaxY1, parallaxX2, parallaxY2 }) {
-  const [activeSection, setActiveSection] = useState('introduction');
-  const scrollableContentRef = useRef(null);
+  const canvasRef = useRef(null);
+  const particlesRef = useRef([]);
+  const animationRef = useRef(null);
   const sectionRefs = useRef({});
-  
-  // Section navigation
-  const sections = [
-    { id: 'introduction', title: 'Introduction' },
-    { id: 'vision', title: 'Vision' },
-    { id: 'impact-areas', title: 'Areas of Impact' }
-  ];
+
   
   const [isBrowser, setIsBrowser] = useState(false);
   useEffect(() => {
     setIsBrowser(true);
   }, []);
 
-  // Simple scroll to section function
-  const scrollToSection = (sectionId) => {
-    setActiveSection(sectionId);
-    
-    if (sectionRefs.current[sectionId]) {
-      sectionRefs.current[sectionId].scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  };
-
-  // Create a ref to store the observer instance
-  const observerRef = useRef(null);
-  // Store intersection ratios in a ref to avoid recreating the observer
-  const intersectionRatiosRef = useRef({});
-
-  // Use Intersection Observer to detect which section is in view
-  useEffect(() => {
-    if (!isBrowser || !scrollableContentRef.current) return;
-    
-    // Initialize intersection ratios
-    sections.forEach(section => {
-      intersectionRatiosRef.current[section.id] = 0;
-    });
-    
-    // Handler for intersection changes
-    const handleIntersection = (entries) => {
-      let needsUpdate = false;
-      
-      entries.forEach(entry => {
-        const sectionId = entry.target.id;
-        // Update ratio
-        intersectionRatiosRef.current[sectionId] = entry.intersectionRatio;
-        needsUpdate = true;
-      });
-      
-      if (needsUpdate) {
-        // Find the section with highest visibility
-        let maxRatio = 0;
-        let maxSection = null;
-        
-        Object.keys(intersectionRatiosRef.current).forEach(sectionId => {
-          if (intersectionRatiosRef.current[sectionId] > maxRatio) {
-            maxRatio = intersectionRatiosRef.current[sectionId];
-            maxSection = sectionId;
-          }
-        });
-        
-        // Only update if we have meaningful visibility (> 10%) and a section was found
-        if (maxRatio > 0.1 && maxSection) {
-          setActiveSection(maxSection);
-        }
-      }
-    };
-    
-    // Create observer with improved options
-    const observerOptions = {
-      root: scrollableContentRef.current,
-      rootMargin: '-10% 0px -10% 0px', // Give a margin to improve accuracy
-      threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
-    };
-    
-    // Clean up any existing observer
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-    }
-    
-    // Create new observer
-    observerRef.current = new IntersectionObserver(handleIntersection, observerOptions);
-    
-    // Observe all sections
-    Object.keys(sectionRefs.current).forEach(sectionId => {
-      const element = sectionRefs.current[sectionId];
-      if (element && observerRef.current) {
-        observerRef.current.observe(element);
-      }
-    });
-    
-    // Cleanup function
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-  }, [isBrowser]); // Only recreate when browser detection changes
-
-  // Update observer when section refs change
-  useEffect(() => {
-    if (!observerRef.current) return;
-    
-    // Re-observe all sections if they've been updated
-    Object.keys(sectionRefs.current).forEach(sectionId => {
-      const element = sectionRefs.current[sectionId];
-      if (element && observerRef.current) {
-        observerRef.current.observe(element);
-      }
-    });
-  }, [sections]); // Only run when sections array changes
-
-  // Add separate state to track if navigation should be visible
-  const [navigationVisible, setNavigationVisible] = useState(false);
   
-  // Update visibility when inView changes
+
+  // Initialize and animate background particles
   useEffect(() => {
-    if (inView) {
-      const timer = setTimeout(() => {
-        setNavigationVisible(true);
-      }, 100);
-      return () => clearTimeout(timer);
-    } else {
-      setNavigationVisible(false);
+    if (!canvasRef.current) return;
+    
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+    
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    
+    function initParticles() {
+      const particles = [];
+      const colors = [
+        'rgba(33, 150, 243, 0.4)',  // Blue
+        'rgba(76, 175, 80, 0.4)',   // Green
+        'rgba(255, 235, 59, 0.3)'   // Yellow
+      ];
+      
+      for (let i = 0; i < 40; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 2 + 0.5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedX: (Math.random() - 0.5) * 0.2,
+          speedY: (Math.random() - 0.5) * 0.2,
+          pulseSpeed: Math.random() * 0.005 + 0.002
+        });
+      }
+      
+      particlesRef.current = particles;
     }
-  }, [inView]);
+    
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particlesRef.current.forEach(particle => {
+        // Update position
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        
+        // Wrap around edges
+        if (particle.x < 0) particle.x = canvas.width;
+        if (particle.x > canvas.width) particle.x = 0;
+        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.y > canvas.height) particle.y = 0;
+        
+        // Pulsating effect
+        const time = Date.now() / 1000;
+        const scale = Math.sin(time * particle.pulseSpeed) * 0.2 + 0.8;
+        
+        // Draw the particle
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius * scale, 0, Math.PI * 2);
+        ctx.fillStyle = particle.color;
+        ctx.fill();
+      });
+      
+      animationRef.current = requestAnimationFrame(animateParticles);
+    }
+    
+    animateParticles();
+    
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
 
   return (
     <NeonContainer>
@@ -188,48 +188,15 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
             }}
           />
         </BackgroundLayer>
-      <Section id="impact-areas" >
-        {/* Fixed background layer for decorative elements */}
-      
-        
-        {/* Active section title with gradient underline */}
-        {/* <ActiveSectionTitle isVisible={navigationVisible}>
-          {sections.find(section => section.id === activeSection)?.title || 'Introduction'}
-        </ActiveSectionTitle> */}
-        
-        {/* Floating pill navigation */}
-        {/* <FloatingNav isVisible={navigationVisible}>
-          {sections.map(section => (
-            <NavPill 
-              key={section.id} 
-              active={activeSection === section.id}
-              onClick={() => scrollToSection(section.id)}
-              label={section.title}
-              aria-label={section.title}
-            />
-          ))}
-        </FloatingNav>
-         */}
-        {/* Main content area with vertical scrolling */}
-            {/* Introduction Section */}
+      <ContentSectionBackground id="impact-areas">
+        <BackgroundCanvas ref={canvasRef} />
             <IntroductionSection
               id="introduction"
               sectionRef={el => sectionRefs.current.introduction = el}
               inView={inView}
               content={siteContent.contentSection}
             />
-        
-        {/* Mobile section indicator dots */}
-        {/* <MobileSectionIndicator isVisible={navigationVisible}>
-          {sections.map(section => (
-            <SectionDot 
-              key={section.id} 
-              active={activeSection === section.id}
-              onClick={() => scrollToSection(section.id)}
-            />
-          ))}
-        </MobileSectionIndicator> */}
-      </Section>
+      </ContentSectionBackground>
     </NeonContainer>
   );
 }

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { titleReveal, pulseLight } from "../../styles/animations";
+import { titleReveal, pulseLight, gradientAnimation } from "../../styles/animations";
 
 export const Title = styled.h1`
   position: relative;
@@ -39,6 +39,26 @@ export const ContentTitle = styled.h2`
   transform: translateY(${props => props.inView ? 0 : '20px'});
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   padding: 0 1rem;
+  
+  /* Gradient text effect */
+  background: linear-gradient(
+    90deg, 
+    #2196F3 0%,     /* Blue */
+    #64B5F6 15%,    /* Light Blue */
+    #1976D2 30%,    /* Dark Blue */
+    #76FF03 45%,    /* Green */
+    #64DD17 60%,    /* Light Green */
+    #FFEB3B 75%,    /* Yellow */
+    #FFC107 90%,    /* Amber */
+    #2196F3 100%    /* Back to Blue */
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.5);
+  text-fill-color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.5);
+  animation: ${gradientAnimation} 8s linear infinite;
   
   @media (max-width: 768px) {
     font-size: clamp(1.1rem, 2vw, 1.5rem);

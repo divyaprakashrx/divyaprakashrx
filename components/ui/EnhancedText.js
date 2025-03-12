@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { ContentTitle, ContentText } from "../styled/TextElements";
 import { siteConfig } from "../../config/site";
+import { gradientAnimation } from "../../styles/animations";
 
 const textAppear = keyframes`
   0% {
@@ -15,6 +16,14 @@ const textAppear = keyframes`
 
 export const SmallContentTitle = styled(ContentTitle)`
   animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
+  
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards,
+             ${gradientAnimation} 8s linear infinite;
   
   @media (max-width: 768px) {
     font-size: clamp(1.1rem, 1.8vw, 1.3rem);
@@ -37,7 +46,23 @@ export const SmallContentText = styled(ContentText)`
 export const SectionTitle = styled(ContentTitle)`
   font-size: clamp(1.8rem, 3vw, 2.2rem);
   margin-bottom: 1.5rem;
-  color: ${siteConfig.theme.text.primary};
+  
+  /* Custom gradient for section titles */
+  background: linear-gradient(
+    90deg,
+    #3F51B5 0%,     /* Indigo */
+    #2196F3 20%,    /* Blue */
+    #00BCD4 40%,    /* Cyan */
+    #009688 60%,    /* Teal */
+    #4CAF50 80%,    /* Green */
+    #3F51B5 100%    /* Back to Indigo */
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  animation: ${gradientAnimation} 7s linear infinite;
   
   @media (max-width: 768px) {
     font-size: clamp(1.3rem, 2.2vw, 1.5rem);
