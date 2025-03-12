@@ -10,7 +10,7 @@ import ContactCardGrid from '../contact/ContactCardGrid';
 export default function ContactSection({ inView }) {
   return (
     <NeonContainer>
-      <Section>
+      <Section id="contact">
         <SectionBackground />
         
         <ContactContainer>

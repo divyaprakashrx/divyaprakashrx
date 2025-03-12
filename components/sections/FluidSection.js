@@ -1,59 +1,86 @@
-import { useEffect, useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { ContentTitle, ContentText } from "../styled/TextElements";
-import { siteContent } from "../../config/content";
-import { siteConfig } from "../../config/site";
+import { Section } from '../styled/SectionBackgrounds';
+import { ContentTitle } from '../styled/TextElements';
+import { siteConfig } from '../../config/site';
+import { GlassContainer, GlassContent, GlassHighlight } from '../styled/GlassContainer';
 
-const Section = styled.section`
-  height: 100vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  scroll-snap-align: start;
-  color: white;
-  z-index: 1;
-  background: rgba(3, 9, 18, 0.95); // Updated to match other sections exactly
-`;
-
+// Keep existing Canvas styled component
 const Canvas = styled.canvas`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 1;
 `;
 
+// Update Content styled component to use absolute positioning for better overlay
 const Content = styled.div`
   position: relative;
-  z-index: 1;
-  text-align: center;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0 2rem;
-  max-width: 800px;
+  height: 100%;
 `;
 
-const HighlightsList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0 auto 2rem;
-  max-width: 1200px;
-  text-align: left;
-`;
-
-const HighlightItem = styled.li`
-  margin-bottom: 0.8rem;
-  padding-left: 1.5rem;
+// Replace StackedContainer with a container that has no scrollbar
+const StackedContainer = styled.div`
+  width: 100%;
+  margin-top: 2rem;
+  height: 350px; /* Fixed height for consistent scrolling */
+  overflow: hidden;
   position: relative;
+`;
+
+// Add new ScrollingWrapper for animation
+const ScrollingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  animation: scrolling 30s linear infinite;
   
-  &:before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: ${siteConfig.theme.primary.accent};
+  &:hover {
+    animation-play-state: paused; /* Pause on hover */
   }
+  
+  @keyframes scrolling {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+`;
+
+// Card for each highlight (now inside its own glass container)
+const HighlightCard = styled.div`
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: ${props => props.inView ? 1 : 0};
+  transform: translateY(${props => props.inView ? '0' : '20px'});
+  transition-delay: ${props => props.delay || '0ms'};
+  transition-property: opacity, transform;
+  transition-duration: 0.7s;
+`;
+
+const HighlightTitle = styled.h3`
+  font-size: 1.2rem;
+  color: ${siteConfig.theme.text.accent};
+  margin-bottom: 0.8rem;
+`;
+
+const HighlightText = styled.p`
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: ${siteConfig.theme.text.secondary};
 `;
 
 export default function FluidSection({ inView }) {
@@ -62,9 +89,9 @@ export default function FluidSection({ inView }) {
   const animationRef = useRef(null);
   const blobsRef = useRef([]);
   const timeRef = useRef(0);
-  const starsRef = useRef([]); // Moved to component top level
-  
-  // Initialize space-inspired fluid animation on component mount
+  const starsRef = useRef([]);
+
+  // Keep your existing useEffect for the fluid animation
   useEffect(() => {
     if (!canvasRef.current) return;
     
@@ -80,49 +107,48 @@ export default function FluidSection({ inView }) {
     
     // Stars with persistent positions for slower movement
     const initStars = () => {
-      const starCount = 120; // More stars for better space effect
+      const starCount = 70; // Reduced from 120 for cleaner look
       const stars = [];
       for (let i = 0; i < starCount; i++) {
         stars.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          radius: Math.random() * 1.8 + 0.2, // Varied sizes
-          brightness: Math.random() * 0.4 + 0.6, // Varied brightness
-          speed: Math.random() * 0.05 + 0.01, // Very slow movement
+          radius: Math.random() * 1.5 + 0.2, // Slightly reduced size variation
+          brightness: Math.random() * 0.3 + 0.6, // Adjusted brightness
+          speed: Math.random() * 0.05 + 0.01,
         });
       }
-      starsRef.current = stars; // Assign to the .current property
+      starsRef.current = stars;
     };
     
     // Initialize blob objects with Earth & space-inspired color palette
     const initBlobs = () => {
-      const blobCount = 10; // More blobs for a cosmic effect
+      const blobCount = 6; // Reduced from 10 for cleaner appearance
       const blobs = [];
       
       // Create space/Earth-inspired blue color palette
       const colorPalette = [
-        'hsla(220, 85%, 30%, 0.35)',  // Deep ocean blue
-        'hsla(200, 95%, 40%, 0.35)',  // Earth blue
-        'hsla(210, 80%, 50%, 0.35)',  // Sky blue
-        'hsla(195, 90%, 35%, 0.35)',  // Deep aqua blue
-        'hsla(215, 70%, 25%, 0.35)',  // Dark navy blue
-        'hsla(205, 85%, 45%, 0.35)',  // Medium blue
-        'hsla(195, 90%, 75%, 0.35)',  // Atmosphere blue (lighter)
+        'hsla(220, 85%, 30%, 0.3)',  // Deep ocean blue
+        'hsla(200, 95%, 40%, 0.3)',  // Earth blue
+        'hsla(210, 80%, 50%, 0.3)',  // Sky blue
+        'hsla(195, 90%, 35%, 0.3)',  // Deep aqua blue
+        'hsla(215, 70%, 25%, 0.3)',  // Dark navy blue
+        'hsla(205, 85%, 45%, 0.3)',  // Medium blue
       ];
       
       for (let i = 0; i < blobCount; i++) {
         blobs.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          radius: Math.random() * 70 + 40, // Varied sizes for cosmic bodies
-          color: colorPalette[i % colorPalette.length], // Use the defined palette
-          speedX: Math.random() * 0.3 - 0.15, // Slower, more celestial movement
+          radius: Math.random() * 60 + 40, // Slightly smaller size range
+          color: colorPalette[i % colorPalette.length],
+          speedX: Math.random() * 0.3 - 0.15,
           speedY: Math.random() * 0.3 - 0.15,
           noiseOffsetX: Math.random() * 1000,
           noiseOffsetY: Math.random() * 1000,
-          points: [], // Will hold points for the blob shape
-          pulseRate: Math.random() * 0.02 + 0.01, // For pulsating effect
-          pulseAmount: Math.random() * 0.4 + 0.6, // Intensity of pulsation
+          points: [],
+          pulseRate: Math.random() * 0.02 + 0.01,
+          pulseAmount: Math.random() * 0.3 + 0.6, // Reduced pulse amount for subtlety
         });
       }
       
@@ -393,7 +419,7 @@ export default function FluidSection({ inView }) {
       }
       
       // Draw connections between nearby blobs for cosmic gas/dust effect
-      context.globalCompositeOperation = 'screen'; // Creates glowing effect
+      context.globalCompositeOperation = 'screen';
       for (let i = 0; i < blobsRef.current.length; i++) {
         const blob1 = blobsRef.current[i];
         
@@ -403,10 +429,9 @@ export default function FluidSection({ inView }) {
           const dy = blob1.y - blob2.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          // If blobs are close enough, draw enhanced connection
-          if (distance < (blob1.radius + blob2.radius) * 1.8) { // Increased range
-            // Calculate connection strength based on distance
-            const strength = 1 - (distance / ((blob1.radius + blob2.radius) * 1.8));
+          // Reduced connection threshold for cleaner appearance
+          if (distance < (blob1.radius + blob2.radius) * 1.5) {
+            const strength = 1 - (distance / ((blob1.radius + blob2.radius) * 1.5));
             
             // Find connection points
             const angle = Math.atan2(dy, dx);
@@ -420,41 +445,25 @@ export default function FluidSection({ inView }) {
               y: blob2.y + Math.sin(angle) * blob2.radius * 0.7
             };
             
-            // Space-inspired gradient for connections
+            // Simplified gradient for connections
             const gradient = context.createLinearGradient(
               point1.x, point1.y, point2.x, point2.y
             );
             
-            const color1 = blob1.color.replace('0.35', strength * 0.3);
-            const color2 = blob2.color.replace('0.35', strength * 0.3);
+            const color1 = blob1.color.replace('0.3', strength * 0.25);
+            const color2 = blob2.color.replace('0.3', strength * 0.25);
             
             gradient.addColorStop(0, color1);
-            gradient.addColorStop(0.5, `hsla(220, 85%, 50%, ${strength * 0.2})`); // Cosmic blue middle
             gradient.addColorStop(1, color2);
             
-            // Draw connection with curve for more organic look
-            const midX = (point1.x + point2.x) / 2;
-            const midY = (point1.y + point2.y) / 2;
-            const curveOffset = 10 * strength;
-            
+            // Simplified connection with straight line
             context.beginPath();
             context.moveTo(point1.x, point1.y);
-            context.quadraticCurveTo(
-              midX + Math.sin(angle) * curveOffset, 
-              midY - Math.cos(angle) * curveOffset, 
-              point2.x, point2.y
-            );
+            context.lineTo(point2.x, point2.y);
             
-            context.lineWidth = Math.min(blob1.radius, blob2.radius) * 0.18 * strength;
+            context.lineWidth = Math.min(blob1.radius, blob2.radius) * 0.15 * strength;
             context.strokeStyle = gradient;
-            context.lineCap = 'round';
             context.stroke();
-            
-            // Add subtle glow to connections
-            context.globalAlpha = strength * 0.3;
-            context.lineWidth = Math.min(blob1.radius, blob2.radius) * 0.3 * strength;
-            context.stroke();
-            context.globalAlpha = 1.0;
           }
         }
       }
@@ -481,26 +490,65 @@ export default function FluidSection({ inView }) {
     };
   }, []);
   
+  // Sample highlights data (replace with your actual data)
+  const highlights = [
+    {
+      title: "Interactive Visualization",
+      text: "Creating dynamic data visualizations that respond to user interactions and help tell complex stories through visual narratives."
+    },
+    {
+      title: "Fluid User Interfaces",
+      text: "Designing interfaces that flow naturally and provide seamless transitions between states for an intuitive user experience."
+    },
+    {
+      title: "Real-time Data Processing",
+      text: "Building systems that can process and visualize data streams in real-time, enabling immediate insights and actions."
+    },
+    {
+      title: "Immersive Experiences",
+      text: "Developing applications that create immersive digital environments through thoughtful animations and visual cues."
+    }
+  ];
+
   return (
-    <Section>
+    <Section id="highlights">
       <Canvas ref={canvasRef} />
       <Content>
-        <ContentTitle 
-          inView={inView}
-          style={{
-            textShadow: '0 0 15px rgba(30, 100, 180, 0.8)'
-          }}
-        >
-          {siteContent.highlights.title}
-        </ContentTitle>
-        <ContentText inView={inView}>
-          <HighlightsList>
-                        {siteContent.highlights.items.map((item, index) => (
-                          <HighlightItem key={index}>{item}</HighlightItem>
-                        ))}
-                      </HighlightsList>
-        </ContentText>
-        
+        <GlassContainer inView={inView} width="90%" style={{ maxWidth: '800px' }}>
+          <GlassHighlight 
+            inView={inView} 
+            color="rgba(100, 200, 255, 0.1)" 
+            size="400px" 
+            top="-100px" 
+            left="10%" 
+          />
+          
+          <GlassContent>
+            <ContentTitle inView={inView}>
+              Impact Highlights
+            </ContentTitle>
+            
+            <StackedContainer>
+              <ScrollingWrapper>
+                {/* First set of highlights */}
+                {highlights.map((highlight, index) => (
+                  <HighlightCard key={`first-${index}`} inView={inView} delay={`${index * 150 + 100}ms`}>
+                    <HighlightTitle>{highlight.title}</HighlightTitle>
+                    <HighlightText>{highlight.text}</HighlightText>
+                  </HighlightCard>
+                ))}
+                
+                {/* Duplicate highlights for seamless loop */}
+                {highlights.map((highlight, index) => (
+                  <HighlightCard key={`second-${index}`} inView={inView} delay={`${index * 150 + 100}ms`}>
+                    <HighlightTitle>{highlight.title}</HighlightTitle>
+                    <HighlightText>{highlight.text}</HighlightText>
+                  </HighlightCard>
+                ))}
+              </ScrollingWrapper>
+            </StackedContainer>
+          </GlassContent>
+        </GlassContainer>
       </Content>
     </Section>
   );

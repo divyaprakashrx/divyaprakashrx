@@ -4,6 +4,7 @@ import { siteConfig } from "../../config/site";
 // Main section container
 export const Section = styled.section`
   min-height: 100vh;
+  height:100vh;
   background-color: ${siteConfig.theme.background.grey};
   color: ${siteConfig.theme.text.primary};
   z-index: 2;
@@ -12,13 +13,14 @@ export const Section = styled.section`
 // Scrollable content container
 export const ScrollableContent = styled.div`
   width: 100%;
-  overflow-y: scroll;
+  height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  scroll-snap-type: y mandatory;
   
   /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
@@ -32,10 +34,10 @@ export const ScrollableContent = styled.div`
 // Container for all sections
 export const SectionsContainer = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   padding-top: 100px;
   padding-bottom: 200px;
-  overflow:auto;
   flex-direction: column;
   position: relative;
   &:after {
@@ -67,20 +69,15 @@ export const BackgroundLayer = styled.div`
 
 // Individual section container
 export const SectionContainer = styled.div`
-  min-height: 100vh;
   width: 100%;
+  height: 100vh;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   scroll-snap-align: start;
-  scroll-margin-top: 10px;
+  scroll-snap-stop: always;
   position: relative;
   justify-content: center;
   padding-top: 80px;
-  overflow: auto;
-  
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
 `;

@@ -6,11 +6,11 @@ export default function useScrollEffects(frameRef) {
   const [section, setSection] = useState(0);
   const [contentInView, setContentInView] = useState(false);
   const [fluidSectionInView, setFluidSectionInView] = useState(false);
+  const [contactSectionInView, setContactSectionInView] = useState(false);
   const [sectionProgress, setSectionProgress] = useState(0);
   
   // Refs for performance
   const ticking = useRef(false);
-  const lastScrollPosition = useRef(0);
   const isScrolling = useRef(false);
   const scrollTimeout = useRef(null);
   const previousScrollPosition = useRef(0);
@@ -18,14 +18,14 @@ export default function useScrollEffects(frameRef) {
   
   const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
   
-  // High sensitivity multiplier for responsive section changes
-  const scrollMultiplier = 10.0;;
+  // Reduced scroll multiplier for smoother behavior
+  const scrollMultiplier = 1.0;
   
-  // Snap-to-section functionality
+  // Improved snap-to-section functionality
   const snapToSection = (sectionIndex) => {
     if (!frameRef.current) return;
     
-    const targetPosition = sectionIndex * (viewportHeight / scrollMultiplier);
+    const targetPosition = sectionIndex * viewportHeight;
     frameRef.current.scrollTo({
       top: targetPosition,
       behavior: 'smooth'
@@ -35,15 +35,12 @@ export default function useScrollEffects(frameRef) {
   useEffect(() => {
     if (!frameRef.current) return;
     
-    frameRef.current.style.scrollBehavior = 'smooth';
-    
     const handleScroll = () => {
       const currentPosition = frameRef.current.scrollTop;
       
       // Determine scroll direction
       scrollingDirection.current = currentPosition > previousScrollPosition.current ? 1 : -1;
       previousScrollPosition.current = currentPosition;
-      lastScrollPosition.current = currentPosition;
       
       // Reset scroll timeout for debouncing end of scroll
       if (scrollTimeout.current) {
@@ -54,39 +51,42 @@ export default function useScrollEffects(frameRef) {
       
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
-          // Apply multiplier for increased sensitivity
-          const adjustedPosition = currentPosition * scrollMultiplier;
-          setScrollPosition(adjustedPosition);
+          setScrollPosition(currentPosition);
           
           // Calculate section and progress
-          const exactSection = adjustedPosition / viewportHeight;
+          const exactSection = currentPosition / viewportHeight;
           const currentWholeSection = Math.floor(exactSection);
           const progress = exactSection - currentWholeSection;
           
           setSectionProgress(progress);
+          setSection(currentWholeSection);
           
-          // Use small threshold (5%) for section changes
-          const threshold = 0.05;
-          const newSection = progress > threshold ? currentWholeSection + 1 : currentWholeSection;
+          // Set visibility based on sections with improved thresholds
+          const threshold = 0.2; // Section visibility threshold
           
-          setSection(newSection);
+          // Content section (section 1)
+          setContentInView(
+            (currentWholeSection === 0 && progress > 0.8) || 
+            (currentWholeSection === 1 && progress < 0.8)
+          );
           
-          // Always set content sections as visible regardless of scroll position
-          // This ensures text in all sections is visible
-          setContentInView(true);
-          setFluidSectionInView(true);
+          // Fluid section (section 2)
+          setFluidSectionInView(
+            (currentWholeSection === 1 && progress > 0.8) ||
+            (currentWholeSection === 2 && progress < 0.8)
+          );
+          
+          // Contact section (section 3)
+          setContactSectionInView(
+            (currentWholeSection === 2 && progress > 0.8) ||
+            currentWholeSection === 3
+          );
           
           ticking.current = false;
           
           // Set a timeout to detect when scrolling stops
           scrollTimeout.current = setTimeout(() => {
             isScrolling.current = false;
-            
-            // Snap to nearest section when scrolling stops
-            if (progress > 0.15 && progress < 0.85) {
-              const targetSection = progress > 0.5 ? currentWholeSection + 1 : currentWholeSection;
-              snapToSection(targetSection);
-            }
           }, 150);
         });
         ticking.current = true;
@@ -101,12 +101,11 @@ export default function useScrollEffects(frameRef) {
     
     return () => {
       frameElement.removeEventListener('scroll', handleScroll);
-      frameElement.style.scrollBehavior = '';
       if (scrollTimeout.current) {
         clearTimeout(scrollTimeout.current);
       }
     };
-  }, [frameRef, viewportHeight, scrollMultiplier]);
+  }, [frameRef, viewportHeight]);
   
   // Calculate effects based on section with improved easing
   const effects = useMemo(() => {
@@ -121,14 +120,11 @@ export default function useScrollEffects(frameRef) {
     const zoomLevel = 1 + easeOutCubic(zoomProgress) * (maxZoom - 1);
     
     // Calculate opacity transition (first section only)
-    // Only apply opacity to the earth element, not to text content
     const earthOpacity = section === 0 
       ? Math.max(0, 1 - easeOutCubic(sectionProgress * 1.5))
       : 0;
     
-    // Only apply parallax effects to decorative elements, not content
-    // Progressive parallax effects - strongest in first section
-    // then decreasing with each section
+    // Parallax effect factors
     let sectionFactor;
     if (section === 0) {
       sectionFactor = 1.0; // Full effect in first section
@@ -138,8 +134,8 @@ export default function useScrollEffects(frameRef) {
       sectionFactor = 0.25; // Quarter effect in other sections
     }
     
-    // Use much lower parallax values to prevent text displacement
-    const baseParallaxStrength = 0.004; // Reduced from 0.008
+    // Reduced parallax strength to prevent content displacement
+    const baseParallaxStrength = 0.003;
     const velocityDampening = isScrolling.current ? 0.7 : 1.0;
     
     const parallaxX1 = -scrollPosition * baseParallaxStrength * sectionFactor * velocityDampening;
@@ -148,10 +144,10 @@ export default function useScrollEffects(frameRef) {
     const parallaxY2 = -scrollPosition * (baseParallaxStrength * 0.8) * sectionFactor * velocityDampening;
     
     // Fluid section effects only active in section 2
-    const fluidSectionStart = viewportHeight * 2 * scrollMultiplier;
+    const fluidSectionStart = viewportHeight * 2;
     const fluidEffect = section === 2 ? easeInOutCubic(sectionProgress) : 0;
-    const fluidParallaxX = ((scrollPosition - fluidSectionStart) * 0.003) * fluidEffect; // Reduced from 0.005
-    const fluidParallaxY = ((scrollPosition - fluidSectionStart) * 0.0015) * fluidEffect; // Reduced from 0.0025
+    const fluidParallaxX = ((scrollPosition - fluidSectionStart) * 0.002) * fluidEffect;
+    const fluidParallaxY = ((scrollPosition - fluidSectionStart) * 0.001) * fluidEffect;
     
     return {
       zoomLevel,
@@ -163,15 +159,16 @@ export default function useScrollEffects(frameRef) {
       fluidParallaxX,
       fluidParallaxY
     };
-  }, [scrollPosition, section, sectionProgress, viewportHeight, scrollMultiplier, isScrolling.current]);
+  }, [scrollPosition, section, sectionProgress, viewportHeight, isScrolling.current]);
 
   return {
     scrollPosition,
     section,
     contentInView,
     fluidSectionInView,
+    contactSectionInView,
     sectionProgress,
     ...effects,
-    snapToSection // Export this so components can trigger section changes
+    snapToSection
   };
 }

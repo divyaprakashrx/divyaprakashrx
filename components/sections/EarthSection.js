@@ -100,30 +100,23 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
       const nebulaeGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
       nebulaeGroup.setAttribute("class", "nebulae");
       
-      // Create several large nebula clouds for dramatic effect
-      const nebulaeCount = 5;
+      // Create fewer nebula clouds (reduced from 5 to 3)
+      const nebulaeCount = 3;
       for (let i = 0; i < nebulaeCount; i++) {
         const nebula = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-        const xPos = Math.random() * 100;
-        const yPos = Math.random() * 100;
-        const rx = 25 + Math.random() * 35;
-        const ry = 20 + Math.random() * 30;
+        // Position the nebulae more deliberately for better distribution
+        const xPos = 25 + (i * 25) + (Math.random() * 15);
+        const yPos = 20 + (Math.random() * 60);
+        // Make each nebula slightly larger to maintain visual impact
+        const rx = 30 + Math.random() * 40;
+        const ry = 25 + Math.random() * 35;
         
         nebula.setAttribute("cx", `${xPos}%`);
         nebula.setAttribute("cy", `${yPos}%`);
         nebula.setAttribute("rx", `${rx}%`);
         nebula.setAttribute("ry", `${ry}%`);
         
-        // Create a variety of nebula colors with blue theme
-        const blueVariations = [
-          "rgba(30, 100, 180, 0.3)",
-          "rgba(40, 80, 170, 0.25)",
-          "rgba(20, 120, 200, 0.2)",
-          "rgba(60, 50, 180, 0.2)",
-          "rgba(10, 50, 150, 0.3)"
-        ];
-        
-        nebula.setAttribute("fill", `url(#nebulaGradient${i % 3})`);
+        nebula.setAttribute("fill", `url(#nebulaGradient${i})`);
         
         nebulaeGroup.appendChild(nebula);
         
@@ -132,11 +125,11 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
           position: { x: xPos, y: yPos },
           size: { rx, ry },
           drift: {
-            x: (Math.random() - 0.5) * 0.05, // Very subtle drift for background
-            y: (Math.random() - 0.5) * 0.02
+            x: (Math.random() - 0.5) * 0.15,
+            y: (Math.random() - 0.5) * 0.08
           },
-          pulse: Math.random() * 0.005 + 0.002, // Even slower pulse for background
-          opacity: 0.2 + Math.random() * 0.1
+          pulse: Math.random() * 0.01 + 0.005,
+          opacity: 0.35 + Math.random() * 0.25  // Increased opacity for better visibility
         });
       }
       
@@ -145,9 +138,9 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
     
     // Animation function
     const animateCosmicBackground = () => {
-      const time = Date.now() / 1000;
+      const time = Date.now() / 800; // Changed from 1000 to make animations slightly faster
       
-      // Animate nebulae with very subtle movement
+      // Animate nebulae with more noticeable movement
       nebulaeRef.current.forEach(nebula => {
         // Only apply drift if section is fully visible
         if (opacity > 0.5) {
@@ -161,16 +154,16 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
           if (nebula.position.y > 120) nebula.position.y = -20;
         }
         
-        // Very subtle size pulsing
-        const sizePulse = Math.sin(time * nebula.pulse) * 0.03 + 1;
+        // More pronounced size pulsing
+        const sizePulse = Math.sin(time * nebula.pulse) * 0.06 + 1; // Increased from 0.03
         
         nebula.element.setAttribute("cx", `${nebula.position.x}%`);
         nebula.element.setAttribute("cy", `${nebula.position.y}%`);
         nebula.element.setAttribute("rx", `${nebula.size.rx * sizePulse}%`);
         nebula.element.setAttribute("ry", `${nebula.size.ry * sizePulse}%`);
         
-        // Subtle opacity changes
-        const opacityPulse = Math.sin(time * nebula.pulse * 0.5) * 0.1 + 0.9;
+        // More noticeable opacity changes
+        const opacityPulse = Math.sin(time * nebula.pulse * 0.5) * 0.15 + 0.9; // Increased from 0.1
         nebula.element.setAttribute("opacity", nebula.opacity * opacityPulse * opacity);
       });
       
@@ -221,22 +214,22 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
             
             {/* Primary blue nebula */}
             <radialGradient id="nebulaGradient0" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
-              <stop offset="0%" stopColor="rgba(40, 120, 200, 0.4)" />
-              <stop offset="70%" stopColor="rgba(20, 60, 150, 0.2)" />
+              <stop offset="0%" stopColor="rgba(40, 120, 200, 0.6)" /> {/* Increased from 0.4 */}
+              <stop offset="70%" stopColor="rgba(20, 60, 150, 0.35)" /> {/* Increased from 0.2 */}
               <stop offset="100%" stopColor="rgba(5, 20, 80, 0)" />
             </radialGradient>
             
             {/* Purple-blue nebula */}
             <radialGradient id="nebulaGradient1" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
-              <stop offset="0%" stopColor="rgba(60, 50, 180, 0.3)" />
-              <stop offset="70%" stopColor="rgba(30, 20, 120, 0.15)" />
+              <stop offset="0%" stopColor="rgba(60, 50, 180, 0.5)" /> {/* Increased from 0.3 */}
+              <stop offset="70%" stopColor="rgba(30, 20, 120, 0.3)" /> {/* Increased from 0.15 */}
               <stop offset="100%" stopColor="rgba(10, 5, 60, 0)" />
             </radialGradient>
             
             {/* Teal-blue nebula */}
             <radialGradient id="nebulaGradient2" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
-              <stop offset="0%" stopColor="rgba(20, 140, 180, 0.3)" />
-              <stop offset="70%" stopColor="rgba(10, 70, 100, 0.15)" />
+              <stop offset="0%" stopColor="rgba(20, 140, 180, 0.5)" /> {/* Increased from 0.3 */}
+              <stop offset="70%" stopColor="rgba(10, 70, 100, 0.3)" /> {/* Increased from 0.15 */}
               <stop offset="100%" stopColor="rgba(5, 30, 60, 0)" />
             </radialGradient>
           </defs>

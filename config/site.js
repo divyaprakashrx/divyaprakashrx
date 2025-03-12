@@ -26,7 +26,7 @@ export const siteConfig = {
       grey: "rgba(20, 20, 20, 0.95)",
       card: "rgba(0, 0, 0, 0.3)",
       overlay: "rgba(20, 70, 120, 0.9)",
-      blur: "rgba(0, 0, 0, 0.5)"
+      blur: "rgba(20, 20, 20, 0.5)"
     },
     
     // Text colors

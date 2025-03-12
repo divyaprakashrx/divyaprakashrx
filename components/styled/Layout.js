@@ -2,11 +2,20 @@ import styled from "styled-components";
 
 export const Frame = styled.div`
   width: 100%;
-  min-width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
+  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 `;
 
 export const FloatingElement = styled.div`

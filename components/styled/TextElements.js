@@ -40,6 +40,7 @@ export const ContentTitle = styled.h2`
 export const ContentText = styled.p`
   font-size: clamp(1rem, 2vw, 1.5rem);
   line-height: 1.5;
+  color: ${props => props.theme.text ? props.theme.text.primary : '#ffffff'};
   max-width: 80ch;
   text-align: center;
   opacity: ${props => props.inView ? 1 : 0};

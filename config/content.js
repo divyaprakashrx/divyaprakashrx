@@ -108,12 +108,12 @@ export const siteContent = {
   navigation: {
     additionalItems: [
       {
-        title: "Vision",
-        path: "/#vision"
-      },
-      {
         title: "Impact Areas",
         path: "/#impact-areas"
+      },
+      {
+        title: "Vision",
+        path: "/#vision"
       },
       {
         title: "Highlights",

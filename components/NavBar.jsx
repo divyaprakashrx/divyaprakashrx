@@ -138,6 +138,25 @@ const SocialLink = styled.a`
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  // Get the current URL path including hash fragments
+  const currentPath = router.asPath;
+
+  // Function to determine if a navigation item is active
+  const isItemActive = (itemPath) => {
+    if (itemPath === '/') {
+      // Homepage is only active when there's no hash or it's exactly '/'
+      return currentPath === '/' || currentPath === '';
+    }
+    
+    // For sections on homepage (with hash fragments)
+    if (itemPath.startsWith('/#')) {
+      return currentPath === itemPath;
+    }
+    
+    // For other pages, check if the current path starts with the item path
+    // This handles both exact matches and child routes
+    return currentPath.startsWith(itemPath);
+  };
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -164,7 +183,7 @@ const NavBar = () => {
         {navigationItems.map((item, index) => (
           <NavItem 
             key={index} 
-            className={router.pathname === item.path ? 'active' : ''}
+            className={isItemActive(item.path) ? 'active' : ''}
           >
             <Link href={item.path} passHref legacyBehavior>
               <NavLink>{item.title}</NavLink>
@@ -172,7 +191,10 @@ const NavBar = () => {
           </NavItem>
         ))}
         {router.pathname === '/' && siteContent.navigation.additionalItems.map((item, index) => (
-          <NavItem key={`additional-${index}`}>
+          <NavItem 
+            key={`additional-${index}`}
+            className={isItemActive(item.path) ? 'active' : ''}
+          >
             <Link href={item.path} passHref legacyBehavior>
               <NavLink>{item.title}</NavLink>
             </Link>

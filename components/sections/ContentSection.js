@@ -10,7 +10,7 @@ import { ActiveSectionTitle, FloatingNav, NavPill, MobileSectionIndicator, Secti
 import { SectionWithFloatingElements } from '../styled/Layout';
 // Import section components
 import IntroductionSection from './IntroductionSection';
-import VisionSection from './VisionSection';
+// VisionSection import removed
 import ImpactAreasSection from './ImpactAreasSection';
 
 export default function ContentSection({ inView, parallaxX1, parallaxY1, parallaxX2, parallaxY2 }) {
@@ -187,7 +187,7 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
             }}
           />
         </BackgroundLayer>
-      <Section>
+      <Section id="impact-areas" >
         {/* Fixed background layer for decorative elements */}
       
         
@@ -210,8 +210,6 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
         </FloatingNav>
          */}
         {/* Main content area with vertical scrolling */}
-        {/* <ScrollableContent ref={scrollableContentRef}> */}
-          <SectionsContainer>
             {/* Introduction Section */}
             <IntroductionSection
               id="introduction"
@@ -219,24 +217,6 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
               inView={inView}
               content={siteContent.contentSection}
             />
-
-            {/* Vision Section */}
-            <VisionSection
-              id="vision"
-              sectionRef={el => sectionRefs.current.vision = el}
-              inView={inView}
-              content={siteContent.vision}
-            />
-            
-            {/* Impact Areas Section */}
-            <ImpactAreasSection
-              id="impact-areas"
-              sectionRef={el => sectionRefs.current['impact-areas'] = el}
-              inView={inView}
-              content={siteContent.impactAreas}
-            />
-          </SectionsContainer>
-        {/* </ScrollableContent> */}
         
         {/* Mobile section indicator dots */}
         {/* <MobileSectionIndicator isVisible={navigationVisible}>

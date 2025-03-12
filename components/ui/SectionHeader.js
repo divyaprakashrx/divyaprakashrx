@@ -4,10 +4,10 @@ import { SectionTitle, SectionText } from '../styled/ContactElements';
 export default function SectionHeader({ title, description, inView }) {
   return (
     <>
-      <SectionTitle inView={inView || true}>
+      <SectionTitle inView={inView}>
         {title}
       </SectionTitle>
-      <SectionText inView={inView || true}>
+      <SectionText inView={inView}>
         {description}
       </SectionText>
     </>
