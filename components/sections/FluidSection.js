@@ -105,10 +105,12 @@ export default function FluidSection({ inView }) {
       return Math.sin(x * 0.1) * Math.cos(y * 0.1) * Math.sin(z * 0.1);
     };
     
-    // Stars with persistent positions for slower movement
+    // Initialize stars - commented out for cleaner approach
     const initStars = () => {
-      const starCount = 70; // Reduced from 120 for cleaner look
+      /*
+      const starCount = Math.floor(canvas.width * canvas.height / 15000);
       const stars = [];
+      
       for (let i = 0; i < starCount; i++) {
         stars.push({
           x: Math.random() * canvas.width,
@@ -119,6 +121,10 @@ export default function FluidSection({ inView }) {
         });
       }
       starsRef.current = stars;
+      */
+      
+      // Empty star array for cleaner look
+      starsRef.current = [];
     };
     
     // Initialize blob objects with Earth & space-inspired color palette
@@ -259,6 +265,7 @@ export default function FluidSection({ inView }) {
       context.save();
       
       // Draw stars with glow effect
+      /*
       starsRef.current.forEach(star => {
         // Update star position for slow drift effect
         star.x += star.speed;
@@ -287,6 +294,7 @@ export default function FluidSection({ inView }) {
           context.fill();
         }
       });
+      */
       
       context.restore();
       

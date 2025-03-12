@@ -104,7 +104,7 @@ export default function EnhancedVisionSection({ inView }) {
       canvas.height = window.innerHeight;
       
       // Reset stars and cosmic clouds
-      initStars();
+      // initStars();
       initCosmicClouds(); // Changed from initNebulae
     };
     

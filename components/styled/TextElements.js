@@ -25,6 +25,10 @@ export const Title = styled.h1`
   -moz-text-fill-color: transparent;
   animation: ${titleReveal} 0.8s ease-out forwards, ${pulseLight} 3s ease-in-out infinite 0.8s;
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  
+  @media (max-width: 768px) {
+    font-size: 2.5em;
+  }
 `;
 
 export const ContentTitle = styled.h2`
@@ -35,6 +39,11 @@ export const ContentTitle = styled.h2`
   transform: translateY(${props => props.inView ? 0 : '20px'});
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   padding: 0 1rem;
+  
+  @media (max-width: 768px) {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    margin-bottom: 0.75rem;
+  }
 `;
 
 export const ContentText = styled.p`
@@ -51,6 +60,9 @@ export const ContentText = styled.p`
   margin: 0 auto;
 
   @media (max-width: 768px) {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
     max-width: 95%;
+    padding: 0 1rem;
+    line-height: 1.4;
   }
 `;

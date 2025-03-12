@@ -53,8 +53,9 @@ const SpaceR = ({ width = '100%', height = '100%' }) => {
     const svgWidth = svg.clientWidth || window.innerWidth;
     const svgHeight = svg.clientHeight || window.innerHeight;
 
-    // Create stars
+    // Create stars - COMMENTED OUT FOR CLEANER APPROACH
     const createStars = () => {
+      /*
       const starsGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
       starsGroup.setAttribute("class", "stars");
       
@@ -82,11 +83,12 @@ const SpaceR = ({ width = '100%', height = '100%' }) => {
             x: (Math.random() - 0.5) * 0.1, // Small random drift
             y: (Math.random() - 0.5) * 0.1
           },
-          isShootingStar: Math.random() > 0.97 // Some stars will be shooting stars
+          isShootingStar: Math.random() > 0.95 // Some stars can become shooting stars
         });
       }
       
       svg.appendChild(starsGroup);
+      */
     };
 
     // Create nebulae
@@ -217,6 +219,7 @@ const SpaceR = ({ width = '100%', height = '100%' }) => {
       });
       
       // Animate stars with enhanced effects
+      /*
       starsRef.current.forEach(star => {
         // Basic pulsing
         const pulseFactor = Math.sin(time * star.pulseSpeed * Math.PI) * 0.2 + 0.8;
@@ -271,6 +274,7 @@ const SpaceR = ({ width = '100%', height = '100%' }) => {
           requestAnimationFrame(fadeTrail);
         }
       });
+      */
       
       // Animate orbital elements
       orbitalsRef.current.forEach(orbital => {

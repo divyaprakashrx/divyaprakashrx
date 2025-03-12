@@ -132,3 +132,71 @@ export const SectionDot = styled.div`
   background: ${props => props.active ? siteConfig.theme.primary.accent : 'rgba(255, 255, 255, 0.3)'};
   transition: background 0.3s ease;
 `;
+
+// Navigation items styling
+export const NavItem = styled.a`
+  position: relative;
+  color: ${props => props.active ? siteConfig.theme.text.primary : siteConfig.theme.text.secondary};
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.25rem;
+  font-weight: ${props => props.active ? 500 : 400};
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  background-color: ${props => props.active ? 'rgba(0, 100, 255, 0.1)' : 'transparent'};
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: ${props => props.active ? '80%' : '0%'};
+    height: 2px;
+    background-color: ${siteConfig.theme.primary.accent};
+    transition: width 0.3s ease;
+    opacity: ${props => props.active ? 1 : 0};
+  }
+  
+  &:hover {
+    color: ${siteConfig.theme.text.primary};
+    background-color: rgba(0, 100, 255, 0.07);
+    
+    &::after {
+      width: 80%;
+      opacity: 0.7;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+    margin: 0 0.15rem;
+  }
+`;
+
+// Mobile navigation indicator
+export const MobileNavIndicator = styled.div`
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  background: rgba(5, 15, 30, 0.7);
+  border-radius: 20px;
+  padding: 8px 15px;
+  z-index: 10;
+  opacity: ${props => props.isVisible ? 1 : 0};
+  visibility: ${props => props.isVisible ? 'visible' : 'hidden'};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: ${props => props.isVisible ? 'auto' : 'none'};
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  @media (max-width: 768px) {
+    display: flex;
+    gap: 10px;
+  }
+`;

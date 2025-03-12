@@ -20,6 +20,11 @@ export const SectionTitle = styled(ContentTitle)`
   animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
   text-shadow: 0 0 15px rgba(0, 100, 255, 0.3); /* Add text shadow for better contrast */
   font-weight: 600; /* Increase font weight for better visibility */
+  
+  @media (max-width: 768px) {
+    font-size: clamp(1.5rem, 2.5vw, 1.8rem);
+    margin-bottom: 1rem;
+  }
 `;
 
 export const SectionText = styled(ContentText)`
@@ -30,18 +35,25 @@ export const SectionText = styled(ContentText)`
   animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
   animation-delay: 0.2s;
   line-height: 1.6; /* Improved line height for readability */
+  
+  @media (max-width: 768px) {
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+  }
 `;
 
 export const SmallContentText = styled(ContentText)`
-  @media (max-width: 768px) {
-    font-size: clamp(0.75rem, 1.2vw, 1rem);
-    line-height: 1.4;
-    padding: 0 1rem;
-    margin-bottom: 1rem;
-  }
   color: #e6e6ff; /* Light blue-white for consistency */
   animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
   animation-delay: 0.2s;
+  
+  @media (max-width: 768px) {
+    font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+    line-height: 1.3;
+    padding: 0 1rem;
+    margin-bottom: 0.75rem;
+  }
 `;
 
 // Contact specific styles - Enhanced styling
@@ -77,6 +89,12 @@ export const ContactGrid = styled.div`
   width: 100%;
   max-width: 900px;
   margin: 2rem auto;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem auto;
+  }
 `;
 
 export const ContactCard = styled.div`
@@ -101,6 +119,11 @@ export const ContactIcon = styled.div`
   margin-bottom: 1rem;
   color: ${siteConfig.theme.primary.accent};
   text-shadow: 0 0 10px rgba(0, 120, 255, 0.5);
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
 `;
 
 export const ImpactTitle = styled.h3`
@@ -109,6 +132,11 @@ export const ImpactTitle = styled.h3`
   color: #ffffff; /* Explicit white for heading */
   font-weight: 500;
   text-shadow: 0 0 10px rgba(0, 80, 200, 0.3); /* Shadow for better visibility */
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
 `;
 
 export const ContactLink = styled.a`
@@ -126,5 +154,10 @@ export const ContactLink = styled.a`
     color: ${siteConfig.theme.primary.accent};
     transform: scale(1.05);
     text-shadow: 0 0 8px rgba(0, 120, 255, 0.5);
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
   }
 `;
