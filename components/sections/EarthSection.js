@@ -26,7 +26,7 @@ const Section = styled.section`
     transform: ${props => `scale(${props.zoomLevel})`};
     opacity: ${props => props.opacity};
     will-change: transform, opacity;
-    transition: transform 0.05s linear, opacity 0.3s ease-out;
+    transition: transform 0.02s linear, opacity 0.15s ease-out;
   }
 `;
 
@@ -154,8 +154,8 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
           position: { x: xPos, y: yPos },
           size: { rx, ry },
           drift: {
-            x: (Math.random() - 0.5) * 0.15,
-            y: (Math.random() - 0.5) * 0.08
+            x: (Math.random() - 0.5) * 0.1, // Matching SpaceR drift values (0.1)
+            y: (Math.random() - 0.5) * 0.05 // Matching SpaceR drift values (0.05)
           },
           pulse: Math.random() * 0.01 + 0.005,
         });
@@ -168,9 +168,9 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
     createNebulae();
     
     // Animate the cosmic background
-    let time = 0;
     const animate = () => {
-      time += 0.01;
+      // Use time-based animation like SpaceR does instead of incremental
+      const time = Date.now() / 1000;
       
       /* 
       // Star animation - COMMENTED OUT
@@ -188,11 +188,11 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
       });
       */
       
-      // Nebulae animation
+      // Nebulae animation - updated to match SpaceR speed
       nebulaeRef.current.forEach(nebula => {
-        // Slow drift
-        nebula.position.x += nebula.drift.x * 0.05;
-        nebula.position.y += nebula.drift.y * 0.05;
+        // Direct drift without multiplier - matches SpaceR approach
+        nebula.position.x += nebula.drift.x;
+        nebula.position.y += nebula.drift.y;
         
         // Loop around edges if needed
         if (nebula.position.x < -20) nebula.position.x = 120;
@@ -200,16 +200,16 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
         if (nebula.position.y < -20) nebula.position.y = 120;
         if (nebula.position.y > 120) nebula.position.y = -20;
         
-        // More pronounced size pulsing
-        const sizePulse = Math.sin(time * nebula.pulse) * 0.06 + 1; // Increased from 0.03
+        // Size pulsing matched to SpaceR
+        const sizePulse = Math.sin(time * nebula.pulse) * 0.05 + 1;
         
         nebula.element.setAttribute("cx", `${nebula.position.x}%`);
         nebula.element.setAttribute("cy", `${nebula.position.y}%`);
         nebula.element.setAttribute("rx", `${nebula.size.rx * sizePulse}%`);
         nebula.element.setAttribute("ry", `${nebula.size.ry * sizePulse}%`);
         
-        // More noticeable opacity changes
-        const opacityPulse = Math.sin(time * nebula.pulse * 0.5) * 0.15 + 0.9; // Increased from 0.1
+        // Opacity pulse matched to SpaceR
+        const opacityPulse = Math.sin(time * nebula.pulse * 0.7) * 0.1 + 0.9;
         nebula.element.setAttribute("opacity", opacityPulse);
       });
       
