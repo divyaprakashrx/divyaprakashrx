@@ -26,7 +26,7 @@ export const SmallContentTitle = styled(ContentTitle)`
              ${gradientAnimation} 8s linear infinite;
   
   @media (max-width: 768px) {
-    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    font-size: clamp(1.2rem, 1.8vw, 1.4rem);
     margin-bottom: 0.7rem;
   }
 `;
@@ -36,7 +36,7 @@ export const SmallContentText = styled(ContentText)`
   animation-delay: 0.2s;
   
   @media (max-width: 768px) {
-    font-size: clamp(0.7rem, 1vw, 0.8rem);
+    font-size: clamp(0.9rem, 1vw, 1rem);
     line-height: 1.3;
     padding: 0 0.5rem;
     margin-bottom: 0.5rem;

@@ -58,6 +58,10 @@ const StyledTitle = styled.h1`
   z-index: 100;
   position: relative;
   text-transform: uppercase;
+    @media (max-width: 768px) {
+    font-size: clamp(1.8rem, 3vw, 2rem);
+    margin-bottom: 0.7rem;
+  }
   
   /* Add these properties to improve text rendering */
   -webkit-font-smoothing: antialiased;
