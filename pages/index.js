@@ -9,6 +9,7 @@ import EnhancedVisionSection from '../components/sections/EnhancedVisionSection'
 import useScrollEffects from "../hooks/useScrollEffects";
 import { preloadAssets } from '../utils/preloadAssets';
 import useElementInView from '../hooks/useElementInView';
+import TigerWatermark from '../components/TigerWatermark';
 
 export default function Home() {
   const frameRef = useRef(null);
@@ -51,70 +52,73 @@ export default function Home() {
   }, []);
 
   return (
-    <Frame ref={frameRef}>
-      <section style={{ 
-        height: '100vh', 
-        scrollSnapAlign: 'start', 
-        scrollSnapStop: 'always' 
-      }}>
-        <EarthSection 
-          inView={true} 
-          zoomLevel={zoomLevel}
-          opacity={earthOpacity}
-          titleOpacity={1 - earthOpacity}
-          loaded={pageLoaded && assetsLoaded}
-        />
-      </section>
-      
-      <section 
-        ref={contentRef} 
-        style={{ 
+    <>
+      <Frame ref={frameRef}>
+        <section style={{ 
           height: '100vh', 
           scrollSnapAlign: 'start', 
           scrollSnapStop: 'always' 
-        }}
-      >
-        <ContentSection 
-          inView={contentInViewState || contentInView}
-          parallaxX1={parallaxX1}
-          parallaxY1={parallaxY1}
-          parallaxX2={parallaxX2}
-          parallaxY2={parallaxY2}
-        />
-      </section>
-      
-      <section 
-        ref={visionRef} 
-        style={{ 
-          height: '100vh', 
-          scrollSnapAlign: 'start', 
-          scrollSnapStop: 'always' 
-        }}
-      >
-        <EnhancedVisionSection inView={visionInView} />
-      </section>
-      
-      <section 
-        ref={fluidRef} 
-        style={{ 
-          height: '100vh', 
-          scrollSnapAlign: 'start', 
-          scrollSnapStop: 'always' 
-        }}
-      >
-        <FluidSection inView={fluidInView || fluidSectionInView} />
-      </section>
-      
-      <section 
-        ref={contactRef} 
-        style={{ 
-          height: '100vh', 
-          scrollSnapAlign: 'start', 
-          scrollSnapStop: 'always'
-        }}
-      >
-        <ContactSection inView={contactInView || contactSectionInView} />
-      </section>
-    </Frame>
+        }}>
+          <EarthSection 
+            inView={true} 
+            zoomLevel={zoomLevel}
+            opacity={earthOpacity}
+            titleOpacity={1 - earthOpacity}
+            loaded={pageLoaded && assetsLoaded}
+          />
+        </section>
+        
+        <section 
+          ref={contentRef} 
+          style={{ 
+            height: '100vh', 
+            scrollSnapAlign: 'start', 
+            scrollSnapStop: 'always' 
+          }}
+        >
+          <ContentSection 
+            inView={contentInViewState || contentInView}
+            parallaxX1={parallaxX1}
+            parallaxY1={parallaxY1}
+            parallaxX2={parallaxX2}
+            parallaxY2={parallaxY2}
+          />
+        </section>
+        
+        <section 
+          ref={visionRef} 
+          style={{ 
+            height: '100vh', 
+            scrollSnapAlign: 'start', 
+            scrollSnapStop: 'always' 
+          }}
+        >
+          <EnhancedVisionSection inView={visionInView} />
+        </section>
+        
+        <section 
+          ref={fluidRef} 
+          style={{ 
+            height: '100vh', 
+            scrollSnapAlign: 'start', 
+            scrollSnapStop: 'always' 
+          }}
+        >
+          <FluidSection inView={fluidInView || fluidSectionInView} />
+        </section>
+        
+        <section 
+          ref={contactRef} 
+          style={{ 
+            height: '100vh', 
+            scrollSnapAlign: 'start', 
+            scrollSnapStop: 'always'
+          }}
+        >
+          <ContactSection inView={contactInView || contactSectionInView} />
+        </section>
+      </Frame>
+      <TigerWatermark />
+    </>
   );
 }
