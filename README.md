@@ -1,13 +1,13 @@
-# Hi, I'm Divya Prakash 👋
+# Hey, Glad u are here! 👋
+
+## What I thrive for
+
 
 > Creating Meaningful Impact: Transforming complex challenges into elegant, efficient solutions.
 
 Transforming complex challenges into elegant, efficient solutions that make meaningful impacts. 
 
-
 My focus is on building innovations that simplify lives and empower societies to achieve more.
-
-## What I thrive for
 
 I believe in creating solutions that matter. By focusing on the human element behind every technical challenge, I build systems that not only perform exceptionally but truly connect with the people who use them.
 
