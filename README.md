@@ -43,3 +43,7 @@ I'm always open to discussing new projects, opportunities, and collaborations.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-divyaprakashrx-blue?style=flat-square&logo=linkedin)](https://linkedin.com/in/divyaprakashrx)
 [![GitHub](https://img.shields.io/badge/GitHub-divyaprakashrx-black?style=flat-square&logo=github)](https://github.com/divyaprakashrx)
+
+![image](https://github.githubassets.com/images/modules/site/home/footer-illustration.svg)
+
+
