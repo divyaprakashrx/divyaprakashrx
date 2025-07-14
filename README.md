@@ -41,8 +41,8 @@ Transforming raw information into meaningful insights that drive better decision
 
 | Project | Description | TestFlight | Discussion |
 |---------|-------------|------------|------------|
-| **Unyx** | iOS application with innovative features | [Join TestFlight](https://testflight.apple.com/join/cw55NxZq) | [Apple Developer Forums](https://developer.apple.com/forums/thread/792872) |
-| **Arsynal** | Powerful iOS toolkit | [Join TestFlight](https://testflight.apple.com/join/Jnhg4q3W) | [Apple Developer Forums](https://developer.apple.com/forums/thread/786944) |
+| **🚀 Arsynal** | The Ultimate AI Productivity Suite for macOS & iOS | [Join TestFlight](https://testflight.apple.com/join/Jnhg4q3W) | [Apple Developer Forums](https://developer.apple.com/forums/thread/786944) |
+| **🎮 Unyx** | The Ultimate Controller for Your Mac | [Join TestFlight](https://testflight.apple.com/join/cw55NxZq) | [Apple Developer Forums](https://developer.apple.com/forums/thread/792872) |
 
 ## Get In Touch
 
