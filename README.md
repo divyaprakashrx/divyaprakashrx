@@ -37,6 +37,13 @@ Transforming raw information into meaningful insights that drive better decision
 - Created solutions that reduced processing times from days to seconds
 - Designed systems that dramatically simplified complex compliance requirements
 
+### Apps
+
+| Project | Description | TestFlight | Discussion |
+|---------|-------------|------------|------------|
+| **Unyx** | iOS application with innovative features | [Join TestFlight](https://testflight.apple.com/join/cw55NxZq) | [Apple Developer Forums](https://developer.apple.com/forums/thread/792872) |
+| **Arsynal** | Powerful iOS toolkit | [Join TestFlight](https://testflight.apple.com/join/Jnhg4q3W) | [Apple Developer Forums](https://developer.apple.com/forums/thread/786944) |
+
 ## Get In Touch
 
 I'm always open to discussing new projects, opportunities, and collaborations.
