@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-export default function useElementInView(threshold = 0.3) {
+export default function useElementInView(threshold = 0.15) {
   const [isInView, setIsInView] = useState(false);
   const ref = useRef(null);
   
@@ -10,7 +10,11 @@ export default function useElementInView(threshold = 0.3) {
     
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          // Once visible, stop observing (animations stay triggered)
+          observer.unobserve(currentRef);
+        }
       },
       { threshold }
     );
@@ -18,7 +22,6 @@ export default function useElementInView(threshold = 0.3) {
     observer.observe(currentRef);
     
     return () => {
-      observer.unobserve(currentRef);
       observer.disconnect();
     };
   }, [threshold]);

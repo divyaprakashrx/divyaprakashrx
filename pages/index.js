@@ -1,11 +1,17 @@
 'use client';
 import { useRef, useState, useEffect } from "react";
+import { MotionConfig } from "framer-motion";
 import { Frame } from "../components/styled/Layout";
 import EarthSection from "../components/sections/EarthSection";
 import ContentSection from "../components/sections/ContentSection";
+import EnhancedVisionSection from '../components/sections/EnhancedVisionSection';
+import ArsynalSection from '../components/sections/ArsynalSection';
+import UnyxSection from '../components/sections/UnyxSection';
+import OpenSourceSection from '../components/sections/OpenSourceSection';
+import ResearchSection from '../components/sections/ResearchSection';
 import FluidSection from "../components/sections/FluidSection";
 import ContactSection from "../components/sections/ContactSection";
-import EnhancedVisionSection from '../components/sections/EnhancedVisionSection';
+import SectionNavDots from '../components/SectionNavDots';
 import useScrollEffects from "../hooks/useScrollEffects";
 import { preloadAssets } from '../utils/preloadAssets';
 import useElementInView from '../hooks/useElementInView';
@@ -16,11 +22,9 @@ export default function Home() {
   const [pageLoaded, setPageLoaded] = useState(false);
   const [assetsLoaded, setAssetsLoaded] = useState(false);
   
-  // Use our custom hook instead of InView components
-  const [contentRef, contentInViewState] = useElementInView(0.3);
-  const [visionRef, visionInView] = useElementInView(0.3);
-  const [fluidRef, fluidInView] = useElementInView(0.3);
-  const [contactRef, contactInView] = useElementInView(0.3);
+  const [contentRef, contentInViewState] = useElementInView(0.15);
+  const [fluidRef, fluidInView] = useElementInView(0.15);
+  const [contactRef, contactInView] = useElementInView(0.15);
   
   const {
     contentInView,
@@ -34,31 +38,25 @@ export default function Home() {
     contactSectionInView
   } = useScrollEffects(frameRef);
 
-  // Handle asset loading and page load animation
   useEffect(() => {
     const loadAssets = async () => {
       const loaded = await preloadAssets();
       setAssetsLoaded(loaded);
-      
       if (loaded) {
-        const loadTimer = setTimeout(() => {
-          setPageLoaded(true);
-        }, 500);
+        const loadTimer = setTimeout(() => setPageLoaded(true), 500);
         return () => clearTimeout(loadTimer);
       }
     };
-
     loadAssets();
   }, []);
+
+  const snap = {};
 
   return (
     <>
       <Frame ref={frameRef}>
-        <section style={{ 
-          height: '100vh', 
-          scrollSnapAlign: 'start', 
-          scrollSnapStop: 'always' 
-        }}>
+        {/* Hero */}
+        <section id="hero" style={{ height: '100vh', ...snap }}>
           <EarthSection 
             inView={true} 
             zoomLevel={zoomLevel}
@@ -68,14 +66,8 @@ export default function Home() {
           />
         </section>
         
-        <section 
-          ref={contentRef} 
-          style={{ 
-            height: '100vh', 
-            scrollSnapAlign: 'start', 
-            scrollSnapStop: 'always' 
-          }}
-        >
+        {/* Intro */}
+        <section id="intro" ref={contentRef} style={{ height: '100vh', ...snap }}>
           <ContentSection 
             inView={contentInViewState || contentInView}
             parallaxX1={parallaxX1}
@@ -84,40 +76,34 @@ export default function Home() {
             parallaxY2={parallaxY2}
           />
         </section>
-        
-        <section 
-          ref={visionRef} 
-          style={{ 
-            height: '100vh', 
-            scrollSnapAlign: 'start', 
-            scrollSnapStop: 'always' 
-          }}
-        >
-          <EnhancedVisionSection inView={visionInView} />
-        </section>
-        
-        <section 
-          ref={fluidRef} 
-          style={{ 
-            height: '100vh', 
-            scrollSnapAlign: 'start', 
-            scrollSnapStop: 'always' 
-          }}
-        >
+
+        {/* About & Skills */}
+        <EnhancedVisionSection id="about" />
+
+        {/* Arsynal */}
+        <ArsynalSection id="arsynal" />
+
+        {/* Unyx */}
+        <UnyxSection id="unyx" />
+
+        {/* Open Source */}
+        <OpenSourceSection id="open-source" />
+
+        {/* Research */}
+        <ResearchSection id="research" />
+
+        {/* Impact Highlights */}
+        <section id="highlights" ref={fluidRef} style={{ height: '100vh', ...snap }}>
           <FluidSection inView={fluidInView || fluidSectionInView} />
         </section>
         
-        <section 
-          ref={contactRef} 
-          style={{ 
-            height: '100vh', 
-            scrollSnapAlign: 'start', 
-            scrollSnapStop: 'always'
-          }}
-        >
+        {/* Contact */}
+        <section id="contact" ref={contactRef} style={{ height: '100vh', ...snap }}>
           <ContactSection inView={contactInView || contactSectionInView} />
         </section>
       </Frame>
+
+      <SectionNavDots frameRef={frameRef} />
       <TigerWatermark />
     </>
   );

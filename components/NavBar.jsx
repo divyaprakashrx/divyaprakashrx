@@ -44,7 +44,12 @@ const Logo = styled.div`
 const NavItems = styled.ul`
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 1.5rem;
+  align-items: center;
+
+  @media (max-width: 1024px) {
+    gap: 1rem;
+  }
 
   @media (max-width: 768px) {
     display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
@@ -94,9 +99,16 @@ const NavLink = styled.a`
   color: ${siteConfig.theme.text.primary};
   text-decoration: none;
   transition: color 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 400;
 
   &:hover {
     color: ${siteConfig.theme.primary.accent};
+  }
+  
+  &.active {
+    color: ${siteConfig.theme.primary.accent};
+    font-weight: 500;
   }
 `;
 
@@ -110,6 +122,16 @@ const MenuButton = styled.button`
 
   @media (max-width: 768px) {
     display: block;
+  }
+`;
+
+const NavDivider = styled.div`
+  width: 1px;
+  height: 20px;
+  background: ${siteConfig.theme.border.light};
+  
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -137,6 +159,7 @@ const SocialLink = styled.a`
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
   const router = useRouter();
   // Get the current URL path including hash fragments
   const currentPath = router.asPath;
@@ -150,13 +173,38 @@ const NavBar = () => {
     
     // For sections on homepage (with hash fragments)
     if (itemPath.startsWith('/#')) {
-      return currentPath === itemPath;
+      const hash = itemPath.substring(2); // Remove '/#'
+      return activeSection === hash || currentPath === itemPath;
     }
     
     // For other pages, check if the current path starts with the item path
     // This handles both exact matches and child routes
     return currentPath.startsWith(itemPath);
   };
+
+  // Handle smooth scroll and active section tracking
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['about', 'arsynal', 'unyx', 'open-source', 'research', 'highlights', 'contact'];
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -180,28 +228,20 @@ const NavBar = () => {
       </MenuButton>
       
       <NavItems isOpen={isOpen}>
-        {navigationItems.map((item, index) => (
-          <NavItem 
-            key={index} 
-            className={isItemActive(item.path) ? 'active' : ''}
-          >
+        {/* Section Navigation */}
+        {siteContent.navigation.additionalItems.map((item, index) => (
+          <NavItem key={index} className={isItemActive(item.path) ? 'active' : ''}>
             <Link href={item.path} passHref legacyBehavior>
-              <NavLink>{item.title}</NavLink>
-            </Link>
-          </NavItem>
-        ))}
-        {router.pathname === '/' && siteContent.navigation.additionalItems.map((item, index) => (
-          <NavItem 
-            key={`additional-${index}`}
-            className={isItemActive(item.path) ? 'active' : ''}
-          >
-            <Link href={item.path} passHref legacyBehavior>
-              <NavLink>{item.title}</NavLink>
+              <NavLink className={isItemActive(item.path) ? 'active' : ''}>
+                {item.title}
+              </NavLink>
             </Link>
           </NavItem>
         ))}
         
-        {/* Social icons */}
+        <NavDivider />
+        
+        {/* Social Icons */}
         <SocialIcons isOpen={isOpen}>
           <SocialLink href={siteContent.contact.social.linkedin.url} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <FontAwesomeIcon icon={faLinkedin} />

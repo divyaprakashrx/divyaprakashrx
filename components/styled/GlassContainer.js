@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { siteConfig } from "../../config/site";
 
 const glassReveal = keyframes`
@@ -26,10 +26,6 @@ export const GlassContainer = styled.div`
   margin: 0 auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   z-index: 10;
-  opacity: ${props => props.inView ? 1 : 0};
-  transform: translateY(${props => props.inView ? '0' : '30px'});
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  animation: ${props => props.inView ? glassReveal : 'none'} 0.8s ease-out;
   overflow: hidden;
   position: relative;
   
@@ -71,7 +67,5 @@ export const GlassHighlight = styled.div`
   top: ${props => props.top || '0'};
   left: ${props => props.left || '0'};
   z-index: 1;
-  opacity: ${props => props.inView ? 1 : 0};
-  transition: opacity 1s ease-out;
   pointer-events: none;
 `;

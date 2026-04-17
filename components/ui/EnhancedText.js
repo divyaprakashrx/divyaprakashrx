@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { ContentTitle, ContentText } from "../styled/TextElements";
 import { siteConfig } from "../../config/site";
 import { gradientAnimation } from "../../styles/animations";
@@ -15,15 +15,12 @@ const textAppear = keyframes`
 `;
 
 export const SmallContentTitle = styled(ContentTitle)`
-  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
-  
   background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-fill-color: transparent;
-  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards,
-             ${gradientAnimation} 8s linear infinite;
+  animation: ${gradientAnimation} 8s linear infinite;
   
   @media (max-width: 768px) {
     font-size: clamp(1.2rem, 1.8vw, 1.4rem);
@@ -32,9 +29,6 @@ export const SmallContentTitle = styled(ContentTitle)`
 `;
 
 export const SmallContentText = styled(ContentText)`
-  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
-  animation-delay: 0.2s;
-  
   @media (max-width: 768px) {
     font-size: clamp(0.9rem, 1vw, 1rem);
     line-height: 1.3;

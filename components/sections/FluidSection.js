@@ -516,23 +516,30 @@ export default function FluidSection({ inView }) {
     };
   }, []);
   
-  // Sample highlights data (replace with your actual data)
   const highlights = [
     {
-      title: "Interactive Visualization",
-      text: "Creating dynamic data visualizations that respond to user interactions and help tell complex stories through visual narratives."
+      title: "300x Faster App Load",
+      text: "Reduced application load times by 300x at Ninjacart through tree-shaking of custom libraries, module optimization, and micro-app architecture redesign."
     },
     {
-      title: "Fluid User Interfaces",
-      text: "Designing interfaces that flow naturally and provide seamless transitions between states for an intuitive user experience."
+      title: "20K+ Trader Identity Verification",
+      text: "Spearheaded a single-import SDK micro-application for identity verification, deployed at scale for over 20,000 traders across Ninjacart's platform."
     },
     {
-      title: "Real-time Data Processing",
-      text: "Building systems that can process and visualize data streams in real-time, enabling immediate insights and actions."
+      title: "40% Render Performance Gain",
+      text: "Optimized Avalara's document APIs and dynamic form generation, improving render update performance by 40% through architectural redesign of job-handling micro-services."
     },
     {
-      title: "Immersive Experiences",
-      text: "Developing applications that create immersive digital environments through thoughtful animations and visual cues."
+      title: "Native AI Platform from Scratch",
+      text: "Architected Arsynal — a fully on-device iOS/macOS AI platform — from zero, with a parallel LLM executor, Jinja parser, visual workflow engine, and mini-apps platform."
+    },
+    {
+      title: "Micro-Services → Package Library Migration",
+      text: "Led migration of micro-applications from dedicated hosting to a modular package library architecture at Avalara, enabling independent entry-points and faster deployments."
+    },
+    {
+      title: "GitHub Extern — Global Top 30",
+      text: "Selected in GitHub's first global Externship cohort from under 30 people worldwide. Built a customer-business payment portal as part of the program."
     }
   ];
 
@@ -551,7 +558,7 @@ export default function FluidSection({ inView }) {
           
           <GlassContent>
             <ContentTitle inView={inView}>
-              Impact Highlights
+              Impact at Scale
             </ContentTitle>
             
             <StackedContainer>

@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { ContentTitle, ContentText } from "./TextElements";
 import { siteConfig } from "../../config/site";
 
@@ -16,10 +16,9 @@ const textAppear = keyframes`
 export const SectionTitle = styled(ContentTitle)`
   font-size: clamp(1.8rem, 3vw, 2.2rem);
   margin-bottom: 1.5rem;
-  color: #ffffff; /* Explicitly set to white for better visibility */
-  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
-  text-shadow: 0 0 15px rgba(0, 100, 255, 0.3); /* Add text shadow for better contrast */
-  font-weight: 600; /* Increase font weight for better visibility */
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(0, 100, 255, 0.3);
+  font-weight: 600;
   
   @media (max-width: 768px) {
     font-size: clamp(1.5rem, 2.5vw, 1.8rem);
@@ -28,28 +27,26 @@ export const SectionTitle = styled(ContentTitle)`
 `;
 
 export const SectionText = styled(ContentText)`
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
   margin-bottom: 2rem;
   max-width: 800px;
-  color: #e6e6ff; /* Light blue-white for paragraphs */
-  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
-  animation-delay: 0.2s;
-  line-height: 1.6; /* Improved line height for readability */
+  color: #e6e6ff;
+  line-height: 1.6;
   
   @media (max-width: 768px) {
-    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-size: clamp(0.85rem, 1.1vw, 0.95rem);
     margin-bottom: 1.5rem;
     line-height: 1.4;
   }
 `;
 
 export const SmallContentText = styled(ContentText)`
-  color: #e6e6ff; /* Light blue-white for consistency */
-  animation: ${props => props.inView ? textAppear : 'none'} 0.8s ease-out forwards;
-  animation-delay: 0.2s;
+  color: #e6e6ff;
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  line-height: 1.5;
   
   @media (max-width: 768px) {
-    font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+    font-size: clamp(0.75rem, 1vw, 0.85rem);
     line-height: 1.3;
     padding: 0 1rem;
     margin-bottom: 0.75rem;
@@ -72,15 +69,15 @@ export const ContactContainer = styled.div`
 
 export const ContactGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 2rem auto;
   
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
     margin: 1.5rem auto;
   }
 `;
@@ -115,20 +112,20 @@ export const ContactIcon = styled.div`
 `;
 
 export const ImpactTitle = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: 0.8rem;
-  color: #ffffff; /* Explicit white for heading */
+  color: #ffffff;
   font-weight: 500;
-  text-shadow: 0 0 10px rgba(0, 80, 200, 0.3); /* Shadow for better visibility */
+  text-shadow: 0 0 10px rgba(0, 80, 200, 0.3);
   
   @media (max-width: 768px) {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 0.6rem;
   }
 `;
 
 export const ContactLink = styled.a`
-  color: #e6e6ff; /* Light color for better visibility */
+  color: #e6e6ff;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -136,6 +133,7 @@ export const ContactLink = styled.a`
   gap: 0.5rem;
   margin-top: 1rem;
   font-weight: 500;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
   
   &:hover {
@@ -145,7 +143,7 @@ export const ContactLink = styled.a`
   }
   
   @media (max-width: 768px) {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-top: 0.75rem;
   }
 `;

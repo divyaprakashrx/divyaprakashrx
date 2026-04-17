@@ -45,6 +45,31 @@ const CosmicBackground = styled.div`
   transition: transform 0.05s linear, opacity 0.3s ease-out;
 `;
 
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 100;
+  position: relative;
+`;
+
+const Subtitle = styled.p`
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 500;
+  text-align: center;
+  color: rgba(165, 180, 252, 0.85);
+  letter-spacing: 0.05em;
+  margin: 0;
+  opacity: ${props => props.opacity};
+  transition: opacity 0.5s ease;
+  text-shadow: 0 0 10px rgba(165, 180, 252, 0.3);
+  
+  @media (max-width: 768px) {
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+  }
+`;
+
 export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
   const svgRef = useRef(null);
   const starsRef = useRef([]);
@@ -272,7 +297,10 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
         </svg>
       </CosmicBackground>
       {/* Reverse the opacity behavior: 1 - titleOpacity makes it visible on load and fade out on scroll */}
-      <AnimatedTitle opacity={1 - titleOpacity}>{siteContent.mainTitle}</AnimatedTitle>
+      <TitleContainer>
+        <AnimatedTitle opacity={1 - titleOpacity}>{siteContent.mainTitle}</AnimatedTitle>
+        <Subtitle opacity={1 - titleOpacity}>Engineer. Founder. Builder. Designer.</Subtitle>
+      </TitleContainer>
     </Section>
   );
 }

@@ -1,13 +1,18 @@
 import React, { useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import { SectionTitle, SectionText } from '../ui/EnhancedText';
+import styled, { keyframes } from 'styled-components';
+import { motion } from 'framer-motion';
+import { fadeUp, stagger, VP } from '../../utils/motionVariants';
 import { siteConfig } from '../../config/site';
-import { siteContent } from '../../config/site-content';
 
-// Styled components for the vision section
+const gradAnim = keyframes`
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
 const Section = styled.section`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,64 +20,10 @@ const Section = styled.section`
   align-items: center;
   overflow: hidden;
   position: relative;
-  scroll-snap-align: start;
-`;
-
-const PrinciplesList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 1.5rem 0 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  z-index: 2;
-  position: relative;
-`;
-
-const PrincipleItem = styled.li`
-  background: ${props => props.theme.primary ? props.theme.primary.main : 'rgba(40, 80, 170, 0.2)'};
-  padding: 0.6rem 1.6rem;
-  border-radius: 24px;
-  font-size: 0.95rem;
-  color: ${props => props.theme.text ? props.theme.text.primary : '#ffffff'};
-  box-shadow: 0 2px 10px rgba(20, 60, 120, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  backdrop-filter: blur(4px);
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(60, 100, 200, 0.25);
-  }
-`;
-
-// New glass card container
-const GlassCard = styled.div`
-  position: relative;
-  z-index: 2;
-  max-width: 900px;
-  width: 85%;
-  padding: 2.5rem;
-  text-align: center;
-  background: rgba(50, 59, 86, 0.3);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 16px;
-  border: 1px solid rgba(100, 130, 200, 0.1);
-  box-shadow: 0 8px 32px rgba(10, 20, 40, 0.12);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: transform 0.3s ease, box-shadow 0.4s ease;
-  
-  @media (max-width: 768px) {
-    width: 90%;
-    padding: 1.8rem;
-  }
-  
-  &:hover {
-    box-shadow: 0 12px 42px rgba(20, 40, 80, 0.18);
-  }
+  padding: 4rem 2rem;
+  isolation: isolate;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 `;
 
 const StarsCanvas = styled.canvas`
@@ -84,7 +35,202 @@ const StarsCanvas = styled.canvas`
   z-index: 1;
 `;
 
-export default function EnhancedVisionSection({ inView }) {
+const Inner = styled.div`
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+`;
+
+const Left = styled.div``;
+
+const SectionTag = styled.span`
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(99,102,241,0.9);
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.22);
+  border-radius: 100px;
+  padding: 0.3rem 1rem;
+  margin-bottom: 1.2rem;
+`;
+
+const HeroName = styled.h2`
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+  background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 50%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
+const HeroRole = styled.p`
+  font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+  color: rgba(165,180,252,0.7);
+  margin-bottom: 1.5rem;
+`;
+
+const Bio = styled.p`
+  font-size: clamp(0.88rem, 1.4vw, 0.98rem);
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+`;
+
+const ExpList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const ExpItem = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+`;
+
+const ExpDot = styled.div`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(99,102,241,0.7);
+  flex-shrink: 0;
+  margin-top: 0.45rem;
+  box-shadow: 0 0 8px rgba(99,102,241,0.5);
+`;
+
+const ExpText = styled.div``;
+
+const ExpTitle = styled.div`
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+`;
+
+const ExpSub = styled.div`
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 0.15rem;
+`;
+
+const Right = styled.div``;
+
+const SkillsTitle = styled.h3`
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 1rem;
+`;
+
+const SkillGroups = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const SkillGroup = styled.div``;
+
+const GroupLabel = styled.div`
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(99,102,241,0.6);
+  margin-bottom: 0.6rem;
+`;
+
+const ChipRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+`;
+
+const Chip = styled.span`
+  font-size: 0.78rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 100px;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.2);
+  color: rgba(255,255,255,0.65);
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: rgba(99,102,241,0.45);
+    color: rgba(255,255,255,0.9);
+  }
+`;
+
+const CertRow = styled.div`
+  margin-top: 1.5rem;
+`;
+
+const CertTitle = styled.div`
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 0.6rem;
+`;
+
+const CertList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+`;
+
+const CertItem = styled.div`
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::before {
+    content: '✓';
+    color: rgba(99,102,241,0.6);
+    font-size: 0.7rem;
+  }
+`;
+
+const experiences = [
+  { title: 'Founder · Arsynal', sub: 'Jan 2024 – Present · Native AI Platform' },
+  { title: 'Founder · Unyx', sub: 'Apr 2024 – Present · Mac Productivity App' },
+  { title: 'SDE II · Avalara', sub: 'Aug 2024 – Present · Licensing Platform' },
+  { title: 'SDE · Ninjacart', sub: 'Jul 2023 – Aug 2024 · Microservices & Identity' },
+  { title: 'GitHub Extern \'21', sub: 'First global cohort · <30 people worldwide' },
+  { title: 'B.Tech CSE · NIT Patna', sub: 'CGPA 8.83 · 2019–2023' },
+];
+
+const skillGroups = [
+  { label: 'Languages', chips: ['Java','Python','Swift','TypeScript','JavaScript'] },
+  { label: 'Frontend / Mobile', chips: ['React.js','Next.js','SwiftUI','Angular','Tailwind'] },
+  { label: 'Backend / Infra', chips: ['Spring Boot','Node.js','Docker','AWS','Microservices'] },
+  { label: 'AI / ML', chips: ['LLMOps','Embedding Engines','Jinja','Task Queues','Local LLMs'] },
+  { label: 'Practices', chips: ['System Design','Engineering Leadership','Distributed Systems'] },
+];
+
+const certs = [
+  '30 Days of Google Cloud (Cloud & ML Track)',
+  'GCP Big Data & ML Fundamentals',
+  'AWS Fundamentals Specialization',
+  'Python 3 Programming Specialization',
+  'Front-End Web UI Frameworks & Tools',
+];
+
+export default function EnhancedVisionSection({ id }) {
   const canvasRef = useRef(null);
   const starsRef = useRef([]);
   const cosmicCloudsRef = useRef([]); // Changed from nebulaeRef
@@ -291,56 +437,81 @@ export default function EnhancedVisionSection({ inView }) {
       // Reset composite operation
       context.globalCompositeOperation = 'source-over';
       
-      // Continue animation if section is in view
-      if (inView) {
-        animationRef.current = requestAnimationFrame(animate);
-      }
+      animationRef.current = requestAnimationFrame(animate);
     }
     
-    // Start animation
-    if (inView) {
-      animate();
-    }
+    animate();
     
-    // Cleanup
     return () => {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationRef.current);
     };
-  }, [inView]);
-
-  // Restart animation when inView changes
-  useEffect(() => {
-    if (inView && canvasRef.current) {
-      animationRef.current = requestAnimationFrame(() => {
-        const canvas = canvasRef.current;
-        if (canvas) {
-          const context = canvas.getContext('2d');
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          timeRef.current = 0;
-        }
-      });
-    } else {
-      cancelAnimationFrame(animationRef.current);
-    }
-  }, [inView]);
+  }, []);
 
   return (
-    <Section id="vision">
+    <Section id={id}>
       <StarsCanvas ref={canvasRef} />
-      <GlassCard>
-        <SectionTitle inView={inView}>
-          {siteContent.vision.title}
-        </SectionTitle>
-        <SectionText inView={inView}>
-          {siteContent.vision.description}
-        </SectionText>
-        <PrinciplesList>
-          {siteContent.vision.principles.map((principle, index) => (
-            <PrincipleItem key={index}>{principle}</PrincipleItem>
-          ))}
-        </PrinciplesList>
-      </GlassCard>
+      <Inner>
+        <Left>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={VP}>
+            <SectionTag>Founder · Architect · Engineer</SectionTag>
+          </motion.div>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={VP} transition={{ delay: 0.08 }}>
+            <HeroName>Divya Prakash</HeroName>
+          </motion.div>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={VP} transition={{ delay: 0.15 }}>
+            <HeroRole>Full-Stack &amp; AI Systems Engineer · Building Arsynal &amp; Unyx</HeroRole>
+          </motion.div>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={VP} transition={{ delay: 0.22 }}>
+            <Bio>
+              I architect and build systems that scale — from optimizing licensing platforms
+              serving thousands of users daily to designing native AI products from scratch.
+              My obsession: speed, deep OS integration, and experiences that feel like magic.
+            </Bio>
+          </motion.div>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={VP} transition={{ delay: 0.3 }}>
+            <ExpList>
+              {experiences.map((e, i) => (
+                <ExpItem key={i}>
+                  <ExpDot />
+                  <ExpText>
+                    <ExpTitle>{e.title}</ExpTitle>
+                    <ExpSub>{e.sub}</ExpSub>
+                  </ExpText>
+                </ExpItem>
+              ))}
+            </ExpList>
+          </motion.div>
+        </Left>
+
+        <Right>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={VP} transition={{ delay: 0.35 }}>
+            <SkillsTitle>Skills &amp; Stack</SkillsTitle>
+          </motion.div>
+          <motion.div variants={stagger(0.08)} initial="hidden" whileInView="show" viewport={VP}>
+            <SkillGroups>
+              {skillGroups.map((g, i) => (
+                <motion.div key={i} variants={fadeUp}>
+                  <SkillGroup>
+                    <GroupLabel>{g.label}</GroupLabel>
+                    <ChipRow>
+                      {g.chips.map(c => <Chip key={c}>{c}</Chip>)}
+                    </ChipRow>
+                  </SkillGroup>
+                </motion.div>
+              ))}
+            </SkillGroups>
+          </motion.div>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={VP} transition={{ delay: 0.5 }}>
+            <CertRow>
+              <CertTitle>Certifications</CertTitle>
+              <CertList>
+                {certs.map((c, i) => <CertItem key={i}>{c}</CertItem>)}
+              </CertList>
+            </CertRow>
+          </motion.div>
+        </Right>
+      </Inner>
     </Section>
   );
 }

@@ -3,11 +3,16 @@ import styled from "styled-components";
 export const Frame = styled.div`
   width: 100%;
   height: 100vh;
-  overflow-y: auto;
+  height: 100dvh; /* Safari mobile fallback */
+  overflow-y: auto; /* Changed from scroll to auto for Safari */
   overflow-x: hidden;
   position: relative;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: none; /* Disable scroll-snap - it's causing the throttle issue */
   scroll-behavior: smooth;
+  pointer-events: auto;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch; /* Safari smooth scrolling */
+  overscroll-behavior-y: contain; /* Prevent Safari bounce */
   
   /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
