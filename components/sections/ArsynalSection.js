@@ -268,7 +268,9 @@ export default function ArsynalSection({ id }) {
       dx: (Math.random() - 0.5) * 0.14, dy: (Math.random() - 0.5) * 0.14,
       a: Math.random() * 0.35 + 0.05,
     }));
+    let visible = false;
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const p of pts) {
         p.x += p.dx; p.y += p.dy;
@@ -287,8 +289,13 @@ export default function ArsynalSection({ id }) {
       }
       animRef.current = requestAnimationFrame(draw);
     };
-    draw();
-    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animRef.current); };
+    const observer = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { cancelAnimationFrame(animRef.current); animRef.current = requestAnimationFrame(draw); }
+      else cancelAnimationFrame(animRef.current);
+    }, { threshold: 0.01 });
+    observer.observe(canvas);
+    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animRef.current); observer.disconnect(); };
   }, []);
 
   return (

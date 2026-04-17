@@ -73,12 +73,12 @@ const Dot = styled.button`
 const sections = [
   { id: 'hero',        label: 'Home',        color: 'rgba(255,255,255,0.9)' },
   { id: 'intro',       label: 'Intro',       color: 'rgba(33,150,243,0.9)' },
-  { id: 'about',       label: 'About',       color: 'rgba(99,102,241,0.9)' },
   { id: 'arsynal',     label: 'Arsynal',     color: 'rgba(139,92,246,0.9)' },
   { id: 'unyx',        label: 'Unyx',        color: 'rgba(6,182,212,0.9)' },
   { id: 'open-source', label: 'Open Source', color: 'rgba(34,197,94,0.9)' },
   { id: 'research',    label: 'Research',    color: 'rgba(251,191,36,0.9)' },
   { id: 'highlights',  label: 'Impact',      color: 'rgba(248,113,113,0.9)' },
+  { id: 'about',       label: 'About',       color: 'rgba(99,102,241,0.9)' },
   { id: 'contact',     label: 'Contact',     color: 'rgba(255,255,255,0.7)' },
 ];
 
@@ -94,18 +94,26 @@ export default function SectionNavDots({ frameRef }) {
       el: document.getElementById(s.id),
     })).filter(s => s.el);
 
+    let ticking = false;
+    
     const onScroll = () => {
-      const scrollTop = frame.scrollTop;
-      const frameH = frame.clientHeight;
-      let current = sectionEls[0]?.id || 'hero';
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollTop = frame.scrollTop;
+          const frameH = frame.clientHeight;
+          let current = sectionEls[0]?.id || 'hero';
 
-      for (const { id, el } of sectionEls) {
-        const top = el.offsetTop;
-        if (scrollTop >= top - frameH * 0.4) {
-          current = id;
-        }
+          for (const { id, el } of sectionEls) {
+            const top = el.offsetTop;
+            if (scrollTop >= top - frameH * 0.4) {
+              current = id;
+            }
+          }
+          setActive(current);
+          ticking = false;
+        });
+        ticking = true;
       }
-      setActive(current);
     };
 
     frame.addEventListener('scroll', onScroll, { passive: true });

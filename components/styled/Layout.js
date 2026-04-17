@@ -3,24 +3,19 @@ import styled from "styled-components";
 export const Frame = styled.div`
   width: 100%;
   height: 100vh;
-  height: 100dvh; /* Safari mobile fallback */
-  overflow-y: auto; /* Changed from scroll to auto for Safari */
+  height: 100dvh;
+  overflow-y: auto;
   overflow-x: hidden;
   position: relative;
-  scroll-snap-type: none; /* Disable scroll-snap - it's causing the throttle issue */
-  scroll-behavior: smooth;
-  pointer-events: auto;
-  touch-action: pan-y;
-  -webkit-overflow-scrolling: touch; /* Safari smooth scrolling */
-  overscroll-behavior-y: contain; /* Prevent Safari bounce */
+  background: #000;
   
   /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
     display: none;
   }
   
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const FloatingElement = styled.div`

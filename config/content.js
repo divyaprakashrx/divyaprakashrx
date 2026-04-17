@@ -40,11 +40,12 @@ export const siteContent = {
 
   navigation: {
     additionalItems: [
-      { title: "About", path: "/#about" },
       { title: "Arsynal", path: "/#arsynal" },
       { title: "Unyx", path: "/#unyx" },
       { title: "Open Source", path: "/#open-source" },
+      { title: "Research", path: "/#research" },
       { title: "Impact", path: "/#highlights" },
+      { title: "About", path: "/#about" },
       { title: "Contact", path: "/#contact" }
     ]
   }

@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <>
-      <Frame ref={frameRef}>
+      <Frame ref={frameRef} id="page-frame">
         {/* Hero */}
         <section id="hero" style={{ height: '100vh', ...snap }}>
           <EarthSection 
@@ -77,9 +77,6 @@ export default function Home() {
           />
         </section>
 
-        {/* About & Skills */}
-        <EnhancedVisionSection id="about" />
-
         {/* Arsynal */}
         <ArsynalSection id="arsynal" />
 
@@ -96,6 +93,9 @@ export default function Home() {
         <section id="highlights" ref={fluidRef} style={{ height: '100vh', ...snap }}>
           <FluidSection inView={fluidInView || fluidSectionInView} />
         </section>
+
+        {/* About & Skills */}
+        <EnhancedVisionSection id="about" />
         
         {/* Contact */}
         <section id="contact" ref={contactRef} style={{ height: '100vh', ...snap }}>

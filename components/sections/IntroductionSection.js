@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { SectionContainer } from '../styled/Sections';
 import { SmallContentTitle, SmallContentText } from '../ui/EnhancedText';
 import { ContentText } from '../styled/TextElements';
 import { fadeUp, VP } from '../../utils/motionVariants';
+import { ArrowRight } from 'lucide-react';
 
 const EnhancedIntroContainer = styled(SectionContainer)`
   display: flex;
@@ -59,11 +61,60 @@ const DescriptionText = styled(ContentText)`
   }
 `;
 
+const NavLinksContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const NavLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 25px;
+  color: #a5b4fc;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    
+    svg {
+      transform: translateX(3px);
+    }
+  }
+`;
+
 const roles = [
   { label: '🎯 Engineer', color: '#2196F3' },
   { label: '🚀 Founder', color: '#4CAF50' },
   { label: '⚡ Builder', color: '#FF9800' },
   { label: '🎨 Designer', color: '#9C27B0' }
+];
+
+const navLinks = [
+  { label: 'Arsynal', href: '/#arsynal' },
+  { label: 'Unyx', href: '/#unyx' },
+  { label: 'Open Source', href: '/#open-source' },
+  { label: 'Research', href: '/#research' }
 ];
 
 const badgeVariants = {
@@ -129,6 +180,38 @@ const IntroductionSection = ({ id, sectionRef, inView, content }) => {
         <SmallContentText inView={inView}>
           {content.smallDescription}
         </SmallContentText>
+      </motion.div>
+
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={VP}
+      >
+        <NavLinksContainer>
+          {navLinks.map((link) => {
+            const sectionId = link.href.startsWith('/#') ? link.href.slice(2) : null;
+            return (
+              <NavLink
+                key={link.href}
+                href={link.href}
+                onClick={(e) => {
+                  if (sectionId) {
+                    e.preventDefault();
+                    const frame = document.getElementById('page-frame');
+                    const target = document.getElementById(sectionId);
+                    if (frame && target) {
+                      frame.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+                    }
+                  }
+                }}
+              >
+                {link.label}
+                <ArrowRight />
+              </NavLink>
+            );
+          })}
+        </NavLinksContainer>
       </motion.div>
     </EnhancedIntroContainer>
   );

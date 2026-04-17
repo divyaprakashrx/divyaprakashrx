@@ -248,8 +248,10 @@ export default function FluidSection({ inView }) {
     canvas.addEventListener('touchmove', handleTouchMove);
     canvas.addEventListener('touchend', handleTouchEnd);
     
+    let visible = false;
     // Animation function without scroll parallax
     const animate = () => {
+      if (!visible) return;
       context.clearRect(0, 0, canvas.width, canvas.height);
       
       // Draw darker space-like background (closer to black)
@@ -499,8 +501,13 @@ export default function FluidSection({ inView }) {
       
       animationRef.current = requestAnimationFrame(animate);
     };
-    
-    animate();
+
+    const observer = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { cancelAnimationFrame(animationRef.current); animationRef.current = requestAnimationFrame(animate); }
+      else cancelAnimationFrame(animationRef.current);
+    }, { threshold: 0.01 });
+    observer.observe(canvas);
     
     // Cleanup
     return () => {
@@ -513,6 +520,7 @@ export default function FluidSection({ inView }) {
       canvas.removeEventListener('touchmove', handleTouchMove);
       canvas.removeEventListener('touchend', handleTouchEnd);
       cancelAnimationFrame(animationRef.current);
+      observer.disconnect();
     };
   }, []);
   

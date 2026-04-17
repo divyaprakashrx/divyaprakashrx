@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 import { fadeUp, stagger, cardReveal, VP } from '../../utils/motionVariants';
@@ -235,6 +235,7 @@ const skills = [
 export default function OpenSourceSection({ id }) {
   const canvasRef = useRef(null);
   const animRef = useRef(null);
+  const [npmDownloads, setNpmDownloads] = useState(656);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -252,7 +253,9 @@ export default function OpenSourceSection({ id }) {
       a: Math.random() * 0.3 + 0.05,
     }));
 
+    let visible = false;
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       dots.forEach(d => {
         d.x += d.dx / canvas.width; d.y += d.dy / canvas.height;
@@ -265,8 +268,29 @@ export default function OpenSourceSection({ id }) {
       });
       animRef.current = requestAnimationFrame(draw);
     };
-    draw();
-    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animRef.current); };
+    const observer = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { cancelAnimationFrame(animRef.current); animRef.current = requestAnimationFrame(draw); }
+      else cancelAnimationFrame(animRef.current);
+    }, { threshold: 0.01 });
+    observer.observe(canvas);
+    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animRef.current); observer.disconnect(); };
+  }, []);
+
+  // Fetch npm downloads for xlslite
+  useEffect(() => {
+    const fetchNpmDownloads = async () => {
+      try {
+        const response = await fetch('https://api.npmjs.org/downloads/point/last-week/xlslite');
+        const data = await response.json();
+        if (data.downloads) {
+          setNpmDownloads(data.downloads);
+        }
+      } catch (error) {
+        console.error('Failed to fetch npm downloads:', error);
+      }
+    };
+    fetchNpmDownloads();
   }, []);
 
   const doubled = [...skills, ...skills];
@@ -301,18 +325,18 @@ export default function OpenSourceSection({ id }) {
                 </CardHeader>
                 <CardDescription>
                   The most lightweight, pipe-based XLSX export library. Multi-sheet, CSV→XLSX,
-                  auto row-split, strict column guard, tree-shakeable. Only 3.1 kB gzipped — 
+                  auto row-split, strict column guard, tree-shakeable. Only 4.6 kB gzipped —
                   works in browsers and Node.js with zero DOM dependencies for parsing.
                 </CardDescription>
                 <TagRow>
-                  {['xlsx','excel','csv','pipe-based','tree-shakeable','3.1kB'].map(t => (
+                  {['xlsx','excel','csv','pipe-based','tree-shakeable','4.6kB gzipped'].map(t => (
                     <Chip key={t}>{t}</Chip>
                   ))}
                 </TagRow>
                 <MetaRow>
-                  <MetaItem><MetaValue>656</MetaValue><MetaLabel>Weekly Downloads</MetaLabel></MetaItem>
-                  <MetaItem><MetaValue>v1.1.1</MetaValue><MetaLabel>Latest</MetaLabel></MetaItem>
-                  <MetaItem><MetaValue>38.1 KB</MetaValue><MetaLabel>Unpacked</MetaLabel></MetaItem>
+                  <MetaItem><MetaValue>{npmDownloads.toLocaleString()}</MetaValue><MetaLabel>Weekly Downloads</MetaLabel></MetaItem>
+                  <MetaItem><MetaValue>11.6 kB</MetaValue><MetaLabel>Minified</MetaLabel></MetaItem>
+                  <MetaItem><MetaValue>4.6 kB</MetaValue><MetaLabel>Gzipped</MetaLabel></MetaItem>
                 </MetaRow>
                 <CardLink href="https://www.npmjs.com/package/xlslite" target="_blank" rel="noopener">View on npm ↗</CardLink>
               </Card>

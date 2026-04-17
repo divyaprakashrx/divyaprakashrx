@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { fadeUp, stagger, cardReveal, VP } from '../../utils/motionVariants';
 import {
   Cpu, Binary, Network, Lock, GitBranch,
- BarChart3, Eye
+  BarChart3, Eye, Globe
 } from 'lucide-react';
 
 /* ─── Looping CSS animations (not scroll-triggered) ─────── */
@@ -207,7 +207,7 @@ const projects = [
     desc: 'Complete 32-bit Arithmetic Logic Unit designed in Logisim. Supports AND, OR, NOT, Negation, Addition, Subtraction, Multiplication and Division at gate level.',
     tags: ['Digital Logic','Logisim','32-bit','ALU','Hardware'],
     stars: 9,
-    url: 'https://github.com/divyaprakashrx/32-Bit-ALU-Logisim',
+    links: [{ url: 'https://github.com/divyaprakashrx/32-Bit-ALU-Logisim', label: 'View on GitHub ↗' }],
     accent: true,
     visual: 'alu',
   },
@@ -218,7 +218,7 @@ const projects = [
     desc: 'Full 32-bit Floating Point Unit with Add, Sub, Mul, Div operations. Includes overflow detection for all arithmetic ops and divide-by-zero indicator.',
     tags: ['FPU','Floating Point','Logisim','IEEE 754','Hardware'],
     stars: 8,
-    url: 'https://github.com/divyaprakashrx/32-Bit-FPU-Logisim',
+    links: [{ url: 'https://github.com/divyaprakashrx/32-Bit-FPU-Logisim', label: 'View on GitHub ↗' }],
     accent: false,
     visual: 'fpu',
   },
@@ -229,41 +229,47 @@ const projects = [
     desc: 'Convolutional neural network trained on the MNIST handwritten digit dataset, achieving 99.9% accuracy. Explores optimisation techniques for deep learning classifiers.',
     tags: ['CNN','Deep Learning','MNIST','Python','Jupyter'],
     stars: 0,
-    url: 'https://github.com/divyaprakashrx/mnist-using-cnn',
+    links: [{ url: 'https://github.com/divyaprakashrx/mnist-using-cnn', label: 'View on GitHub ↗' }],
     accent: false,
     visual: 'neural',
   },
   {
     icon: <Lock />,
-    title: 'Shamir Secret Sharing & Neural Cryptography',
-    repo: 'Research · NIT Patna',
-    desc: 'Academic research into Shamir\'s Secret Sharing scheme and neural network-based cryptographic key exchange. Explored adversarial training of neural networks to generate shared secrets without explicit key transmission.',
-    tags: ['Cryptography','Neural Networks','Shamir Scheme','Security','Research'],
+    title: 'Masked Autoencoder with Neural Cryptography',
+    repo: 'Research Paper · NIT Patna',
+    desc: 'Developed a secure secret image-sharing technique integrating TPM, masked autoencoders, Shamir\'s scheme, and neural cryptography. Enhances resilience against noise-induced image loss for medical imaging and secure transfers. Reduces computational overhead while ensuring secure key generation over public channels.',
+    tags: ['TPM','BERT','GPT','Neural Crypto','Shamir Scheme','Medical Imaging'],
     stars: null,
-    url: null,
+    links: [
+      { url: 'https://docs.google.com/document/d/e/2PACX-1vSpmaUuaBccJfXk7JkfrjHW2Y0PwU7ICVRbPyJAOW2YVzP4gTPUyBnh6NqJlY9CpfYPKOyPdy5Gwa4i/pub', label: 'View Paper ↗' }
+    ],
     accent: true,
     visual: 'crypto',
   },
   {
     icon: <GitBranch />,
-    title: 'SIH Railway — Smart Lock Bridge',
+    title: 'Railway Security System — SIH 2020 Finalist',
     repo: 'divyaprakashrx/SIH-railway',
-    desc: 'Smart India Hackathon project: communication bridge between a hardware lock unit and a central database. Designed for railway security infrastructure with real-time lock state sync.',
-    tags: ['TypeScript','IoT','Hackathon','Railway','Real-time'],
+    desc: 'Smart India Hackathon 2020 Grand Finale project for Indian Railways. Created a reusable seal system with real-time GPS tracking for logistics trains, replacing conventional paper seals. Features IoT-based unauthorized access alerting and cloud-based compartment status monitoring using Firebase, NRF2401, Arduino, and Mapbox.',
+    tags: ['IoT','GPS','Arduino','Firebase','Cloud','Microcontrollers','SIH 2020'],
     stars: 0,
-    url: 'https://github.com/divyaprakashrx/SIH-railway',
+    links: [{ url: 'https://github.com/divyaprakashrx/SIH-railway', label: 'View on GitHub ↗' }],
     accent: false,
     visual: null,
   },
   {
-    icon: <Network />,
-    title: 'Qwen Agent Framework',
-    repo: 'divyaprakashrx/Qwen-Agent',
-    desc: 'Forked and explored the Qwen agent framework featuring Function Calling, MCP, Code Interpreter, RAG and Chrome extension — foundational research for Arsynal\'s multi-agent system design.',
-    tags: ['LLM','Agent','RAG','MCP','Function Calling'],
+    icon: <Globe />,
+    title: 'NIT Patna Employee Management Portal',
+    repo: 'nitpweb · NIT Patna',
+    desc: 'Modernized university system serving 3,000+ students and 350+ employees daily. Eliminated manual processes with NextJS, GatsbyJS, SSO, and Google Drive integration. Built scalable SSR application with 0.5s load time, CI/CD pipeline, and secure end-to-end APIs. Replaced outdated technologies with modern platform achieving high performance and security.',
+    tags: ['NextJS','GatsbyJS','SSO','CI/CD','Google Drive','SSR','Scale'],
     stars: 0,
-    url: 'https://github.com/divyaprakashrx/Qwen-Agent',
-    accent: false,
+    links: [
+      { url: 'https://github.com/nitpweb/adminportal', label: 'Admin Portal ↗' },
+      { url: 'https://github.com/nitpweb/nitp-web-front', label: 'Frontend ↗' },
+      { url: 'https://www.nitp.ac.in', label: 'Live Site ↗' }
+    ],
+    accent: true,
     visual: null,
   },
 ];
@@ -344,7 +350,9 @@ export default function ResearchSection({ id }) {
       dx: (Math.random()-0.5)*0.1, dy: (Math.random()-0.5)*0.1,
       a: Math.random()*0.28+0.04,
     }));
+    let visible = false;
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0,0,canvas.width,canvas.height);
       pts.forEach(d => {
         d.x+=d.dx/canvas.width; d.y+=d.dy/canvas.height;
@@ -354,8 +362,13 @@ export default function ResearchSection({ id }) {
       });
       animRef.current = requestAnimationFrame(draw);
     };
-    draw();
-    return () => { window.removeEventListener('resize',resize); cancelAnimationFrame(animRef.current); };
+    const observer = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { cancelAnimationFrame(animRef.current); animRef.current = requestAnimationFrame(draw); }
+      else cancelAnimationFrame(animRef.current);
+    }, { threshold: 0.01 });
+    observer.observe(canvas);
+    return () => { window.removeEventListener('resize',resize); cancelAnimationFrame(animRef.current); observer.disconnect(); };
   },[]);
 
   return (
@@ -401,14 +414,16 @@ export default function ResearchSection({ id }) {
                     </div>
                   )}
 
-                  <CardFooter style={{marginTop:'0.9rem'}}>
+                  <CardFooter style={{marginTop:'0.9rem',flexWrap:'wrap',gap:'0.5rem'}}>
                     {p.stars !== null ? (
                       <Stars><BarChart3 size={12} /> {p.stars} stars</Stars>
                     ) : <span style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.25)'}}>Academic</span>}
-                    {p.url ? (
-                      <RepoLink href={p.url} target="_blank" rel="noopener">View on GitHub ↗</RepoLink>
-                    ) : (
-                      <span style={{fontSize:'0.7rem',color:'rgba(255,255,255,0.2)'}}>NIT Patna</span>
+                    {p.links && p.links.length > 0 && (
+                      <div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap'}}>
+                        {p.links.map((link, idx) => (
+                          <RepoLink key={idx} href={link.url} target="_blank" rel="noopener">{link.label}</RepoLink>
+                        ))}
+                      </div>
                     )}
                   </CardFooter>
                 </Card>

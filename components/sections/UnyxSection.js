@@ -306,7 +306,9 @@ export default function UnyxSection({ id }) {
       dx: (Math.random() - 0.5) * 0.11, dy: (Math.random() - 0.5) * 0.11,
       a: Math.random() * 0.3 + 0.05,
     }));
+    let visible = false;
     const draw = () => {
+      if (!visible) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       dots.forEach(d => {
         d.x += d.dx / canvas.width; d.y += d.dy / canvas.height;
@@ -319,8 +321,13 @@ export default function UnyxSection({ id }) {
       });
       animRef.current = requestAnimationFrame(draw);
     };
-    draw();
-    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animRef.current); };
+    const observer = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { cancelAnimationFrame(animRef.current); animRef.current = requestAnimationFrame(draw); }
+      else cancelAnimationFrame(animRef.current);
+    }, { threshold: 0.01 });
+    observer.observe(canvas);
+    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animRef.current); observer.disconnect(); };
   }, []);
 
   return (

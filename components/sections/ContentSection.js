@@ -110,39 +110,37 @@ export default function ContentSection({ inView, parallaxX1, parallaxY1, paralla
       particlesRef.current = particles;
     }
     
+    let visible = false;
     function animateParticles() {
+      if (!visible) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
       particlesRef.current.forEach(particle => {
-        // Update position
         particle.x += particle.speedX;
         particle.y += particle.speedY;
-        
-        // Wrap around edges
         if (particle.x < 0) particle.x = canvas.width;
         if (particle.x > canvas.width) particle.x = 0;
         if (particle.y < 0) particle.y = canvas.height;
         if (particle.y > canvas.height) particle.y = 0;
-        
-        // Pulsating effect
         const time = Date.now() / 1000;
         const scale = Math.sin(time * particle.pulseSpeed) * 0.2 + 0.8;
-        
-        // Draw the particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.radius * scale, 0, Math.PI * 2);
         ctx.fillStyle = particle.color;
         ctx.fill();
       });
-      
       animationRef.current = requestAnimationFrame(animateParticles);
     }
-    
-    animateParticles();
+    const observer = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { cancelAnimationFrame(animationRef.current); animationRef.current = requestAnimationFrame(animateParticles); }
+      else cancelAnimationFrame(animationRef.current);
+    }, { threshold: 0.01 });
+    observer.observe(canvas);
     
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationRef.current);
+      observer.disconnect();
     };
   }, []);
 

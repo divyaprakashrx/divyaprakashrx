@@ -184,26 +184,37 @@ const NavBar = () => {
 
   // Handle smooth scroll and active section tracking
   useEffect(() => {
+    const frame = document.getElementById('page-frame');
+    if (!frame) return;
+    let ticking = false;
+    
     const handleScroll = () => {
-      const sections = ['about', 'arsynal', 'unyx', 'open-source', 'research', 'highlights', 'contact'];
-      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const sections = ['arsynal', 'unyx', 'open-source', 'research', 'highlights', 'about', 'contact'];
+          const scrollPosition = frame.scrollTop + frame.clientHeight / 3;
 
-      for (const sectionId of sections) {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(sectionId);
-            break;
+          for (const sectionId of sections) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+              const { offsetTop, offsetHeight } = element;
+              if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                setActiveSection(sectionId);
+                break;
+              }
+            }
           }
-        }
+          
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    frame.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial check
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => frame.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Close mobile menu when route changes
@@ -229,15 +240,32 @@ const NavBar = () => {
       
       <NavItems isOpen={isOpen}>
         {/* Section Navigation */}
-        {siteContent.navigation.additionalItems.map((item, index) => (
-          <NavItem key={index} className={isItemActive(item.path) ? 'active' : ''}>
-            <Link href={item.path} passHref legacyBehavior>
-              <NavLink className={isItemActive(item.path) ? 'active' : ''}>
+        {siteContent.navigation.additionalItems.map((item, index) => {
+          const sectionId = item.path.startsWith('/#') ? item.path.slice(2) : null;
+          const handleSectionClick = (e) => {
+            if (sectionId) {
+              e.preventDefault();
+              const frame = document.getElementById('page-frame');
+              const target = document.getElementById(sectionId);
+              if (frame && target) {
+                frame.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+              }
+              setIsOpen(false);
+            }
+          };
+          return (
+            <NavItem key={index} className={isItemActive(item.path) ? 'active' : ''}>
+              <NavLink
+                as="a"
+                href={item.path}
+                onClick={handleSectionClick}
+                className={isItemActive(item.path) ? 'active' : ''}
+              >
                 {item.title}
               </NavLink>
-            </Link>
-          </NavItem>
-        ))}
+            </NavItem>
+          );
+        })}
         
         <NavDivider />
         

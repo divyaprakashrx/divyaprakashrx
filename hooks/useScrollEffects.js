@@ -36,21 +36,14 @@ export default function useScrollEffects(frameRef) {
     if (!frameRef.current) return;
     
     const handleScroll = () => {
-      const currentPosition = frameRef.current.scrollTop;
-      
-      // Determine scroll direction
-      scrollingDirection.current = currentPosition > previousScrollPosition.current ? 1 : -1;
-      previousScrollPosition.current = currentPosition;
-      
-      // Reset scroll timeout for debouncing end of scroll
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
-      }
-      
-      isScrolling.current = true;
-      
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
+          const currentPosition = frameRef.current.scrollTop;
+          
+          // Determine scroll direction
+          scrollingDirection.current = currentPosition > previousScrollPosition.current ? 1 : -1;
+          previousScrollPosition.current = currentPosition;
+          
           setScrollPosition(currentPosition);
           
           // Calculate section and progress
@@ -60,9 +53,6 @@ export default function useScrollEffects(frameRef) {
           
           setSectionProgress(progress);
           setSection(currentWholeSection);
-          
-          // Set visibility based on sections with improved thresholds
-          const threshold = 0.2; // Section visibility threshold
           
           // Content section (section 1)
           setContentInView(
@@ -83,11 +73,6 @@ export default function useScrollEffects(frameRef) {
           );
           
           ticking.current = false;
-          
-          // Set a timeout to detect when scrolling stops
-          scrollTimeout.current = setTimeout(() => {
-            isScrolling.current = false;
-          }, 150);
         });
         ticking.current = true;
       }

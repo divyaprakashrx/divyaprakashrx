@@ -225,8 +225,10 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
     // createStars(); // COMMENTED OUT - No stars for cleaner look
     createNebulae();
     
+    let visible = true; // EarthSection is first, start visible
     // Animate the cosmic background
     const animate = () => {
+      if (!visible) return;
       // Use time-based animation like SpaceR does instead of incremental
       const time = Date.now() / 10000;
       
@@ -274,12 +276,19 @@ export default function EarthSection({ zoomLevel, opacity, titleOpacity }) {
       animationRef.current = requestAnimationFrame(animate);
     };
     
-    animate();
+    const svgEl = svgRef.current;
+    const observer = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { cancelAnimationFrame(animationRef.current); animationRef.current = requestAnimationFrame(animate); }
+      else cancelAnimationFrame(animationRef.current);
+    }, { threshold: 0.01 });
+    if (svgEl) observer.observe(svgEl);
     
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      observer.disconnect();
     };
   }, []);
   

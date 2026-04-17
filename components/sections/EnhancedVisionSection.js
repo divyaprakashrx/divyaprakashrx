@@ -304,8 +304,10 @@ export default function EnhancedVisionSection({ id }) {
       cosmicCloudsRef.current = clouds;
     }
     
+    let visible = false;
     // Animation loop
     function animate() {
+      if (!visible) return;
       context.clearRect(0, 0, canvas.width, canvas.height);
       
       // Update time - slower for more subtle animation
@@ -440,11 +442,17 @@ export default function EnhancedVisionSection({ id }) {
       animationRef.current = requestAnimationFrame(animate);
     }
     
-    animate();
+    const observer = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { cancelAnimationFrame(animationRef.current); animationRef.current = requestAnimationFrame(animate); }
+      else cancelAnimationFrame(animationRef.current);
+    }, { threshold: 0.01 });
+    if (canvasRef.current) observer.observe(canvasRef.current);
     
     return () => {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationRef.current);
+      observer.disconnect();
     };
   }, []);
 
